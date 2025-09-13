@@ -5,11 +5,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Kommaardoor67</title>
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
     :root {
-      --overlay-gradient: linear-gradient(to bottom, rgba(0,31,63,0.8), rgba(0,31,63,0.3), rgba(0,31,63,0));
+      --overlay-gradient: linear-gradient(
+        to bottom,
+        rgba(0,31,63,0.6),
+        rgba(0,31,63,0.2),
+        rgba(0,31,63,0)
+      );
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    html, body { height: 100%; font-family: "Courier New", monospace; font-weight: bold; color: #fff; }
+    html, body { height: 100%; font-family: 'Open Sans', sans-serif; color: #fff; }
     body {
       display: flex;
       align-items: center;
@@ -33,6 +39,7 @@
       top:0; left:0; width:100%; height:100%;
       background: var(--overlay-gradient);
       z-index: 1;
+      pointer-events: none;
     }
     .content {
       position: relative;
@@ -44,6 +51,7 @@
     }
     h1 {
       font-size: 3.5rem;
+      font-weight: bold;
       letter-spacing: 2px;
       margin-bottom: 20px;
       animation: fadeIn 2s ease-in-out;
@@ -59,7 +67,9 @@
       margin-bottom: 30px;
     }
     .unit .number {
+      font-family: "Courier New", monospace;
       font-size: 4rem;
+      font-weight: bold;
     }
     .grid {
       display: grid;
@@ -67,9 +77,9 @@
       gap: 20px;
     }
     .box {
+      background: rgba(0,0,0,0.5);
       padding: 20px;
-      border: 2px solid #fff; /* rand zodat vakjes zichtbaar blijven */
-      border-radius: 8px;
+      border-radius: 15px;
       transition: transform 0.2s ease;
       cursor: pointer;
     }
@@ -92,3 +102,129 @@
   <div class="overlay"></div>
   <div class="content">
     <h1>Kommaardoor67</h1>
+    <div id="countdown" class="units">
+      <div class="unit"><div id="days" class="number">--</div></div>
+      <div class="unit"><div id="hours" class="number">--</div></div>
+      <div class="unit"><div id="minutes" class="number">--</div></div>
+      <div class="unit"><div id="seconds" class="number">--</div></div>
+    </div>
+    <div class="grid">
+      <div class="box" id="box1">Vakje 1</div>
+      <div class="box" id="box2">Vakje 2</div>
+      <div class="box">Vakje 3</div>
+      <div class="box">Vakje 4</div>
+      <div class="box">Vakje 5</div>
+      <div class="box">Vakje 6</div>
+      <div class="box">Vakje 7</div>
+      <div class="box">Vakje 8</div>
+      <div class="box">Vakje 9</div>
+      <div class="box">Vakje 10</div>
+      <div class="box">Vakje 11</div>
+      <div class="box">Vakje 12</div>
+    </div>
+  </div>
+  <canvas id="confetti"></canvas>
+
+  <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+  <script>
+    // Video achtergrond
+    const video = document.getElementById('bgVideo');
+    if (Hls.isSupported()) {
+      const hls = new Hls();
+      hls.loadSource("https://6162417352ffd.streamlock.net/hls/platjeoost.stream/playlist.m3u8?wowzatokenendtime=1757796594&wowzatokenhash=eJFFO4EENR3i9PBuoKdDV4UOJTdnW7DF4_DLXtVb89Y=&wowzatokenstarttime=1757794734");
+      hls.attachMedia(video);
+    } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+      video.src = "https://6162417352ffd.streamlock.net/hls/platjeoost.stream/playlist.m3u8?wowzatokenendtime=1757796594&wowzatokenhash=eJFFO4EENR3i9PBuoKdDV4UOJTdnW7DF4_DLXtVb89Y=&wowzatokenstarttime=1757794734";
+    }
+
+    // Confetti
+    const confettiCanvas = document.getElementById('confetti');
+    const ctx = confettiCanvas.getContext('2d');
+    function resizeCanvas() {
+      confettiCanvas.width = window.innerWidth;
+      confettiCanvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    let confettiParticles = [];
+    function createConfetti() {
+      for (let i = 0; i < 200; i++) {
+        confettiParticles.push({
+          x: Math.random() * confettiCanvas.width,
+          y: Math.random() * confettiCanvas.height - confettiCanvas.height,
+          r: Math.random() * 6 + 4,
+          d: Math.random() * 200 + 50,
+          color: `hsl(${Math.random() * 360},100%,50%)`,
+          tilt: Math.random() * 10 - 10,
+          tiltAngleIncrement: Math.random() * 0.07 + 0.05,
+          tiltAngle: 0
+        });
+      }
+    }
+    function drawConfetti() {
+      ctx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
+      confettiParticles.forEach(p => {
+        ctx.beginPath();
+        ctx.lineWidth = p.r;
+        ctx.strokeStyle = p.color;
+        ctx.moveTo(p.x + p.tilt + p.r / 2, p.y);
+        ctx.lineTo(p.x + p.tilt, p.y + p.tilt + p.r / 2);
+        ctx.stroke();
+      });
+      updateConfetti();
+    }
+    function updateConfetti() {
+      confettiParticles.forEach(p => {
+        p.tiltAngle += p.tiltAngleIncrement;
+        p.y += (Math.cos(p.d) + 3 + p.r / 2) / 2;
+        p.x += Math.sin(p.d);
+        p.tilt = Math.sin(p.tiltAngle) * 15;
+        if (p.y > confettiCanvas.height) {
+          p.x = Math.random() * confettiCanvas.width;
+          p.y = -10;
+        }
+      });
+    }
+    let confettiInterval;
+    function startConfetti() {
+      confettiParticles = [];
+      createConfetti();
+      confettiInterval = setInterval(drawConfetti, 20);
+      setTimeout(() => clearInterval(confettiInterval), 10000); // stopt na 10s
+    }
+
+    // Countdown
+    const targetDate = new Date(2026, 8, 1, 0, 0, 0);
+    function pad(n) { return String(n).padStart(2, '0'); }
+    function updateCountdown() {
+      const now = new Date();
+      const diff = targetDate - now;
+      if (diff <= 0) {
+        document.getElementById('countdown').innerHTML = "<h2>🎉 Pensioen bereikt!</h2>";
+        clearInterval(intervalId);
+        startConfetti();
+        return;
+      }
+      const secondsTotal = Math.floor(diff / 1000);
+      const days = Math.floor(secondsTotal / (24 * 3600));
+      const hours = Math.floor((secondsTotal % (24 * 3600)) / 3600);
+      const minutes = Math.floor((secondsTotal % 3600) / 60);
+      const seconds = secondsTotal % 60;
+
+      document.getElementById('days').textContent = days;
+      document.getElementById('hours').textContent = pad(hours);
+      document.getElementById('minutes').textContent = pad(minutes);
+      document.getElementById('seconds').textContent = pad(seconds);
+    }
+    updateCountdown();
+    const intervalId = setInterval(updateCountdown, 1000);
+
+    // Box 2 confetti voorbeeld
+    document.getElementById('box2').addEventListener('click', () => {
+      startConfetti();
+      document.getElementById('box2').textContent = "Open cadeautje #2";
+    });
+  </script>
+</body>
+</html>
