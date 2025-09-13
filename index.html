@@ -7,6 +7,8 @@
   <style>
     :root {
       --overlay-color: rgba(0, 0, 0, 0.45);
+      --accent1: #7c3aed;
+      --accent2: #06b6d4;
       --text-light: #ffffff;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -20,16 +22,17 @@
       align-items: center;
       justify-content: flex-start;
       text-align: center;
-      padding-top: 40px;
+      padding-top: 60px;
+      position: relative;
+      overflow: hidden;
     }
-    iframe.bgvideo {
+    .bgvideo {
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      object-fit: cover;
       z-index: -2;
-      pointer-events: none;
+      border: none;
     }
     .overlay {
       position: fixed;
@@ -68,29 +71,31 @@
       margin-top: 5px;
       text-transform: uppercase;
     }
-    .dates-grid {
+    .grid-container {
       margin-top: 40px;
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      gap: 20px;
-      width: 80%;
-      max-width: 800px;
+      gap: 15px;
       z-index: 1;
+      position: relative;
     }
-    .date-box {
-      background: rgba(0,0,0,0.4);
+    .grid-item {
+      background: rgba(0,0,0,0.5);
       padding: 20px;
       border-radius: 10px;
-      font-size: 1.2rem;
-      min-height: 80px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
       cursor: pointer;
+      transition: background 0.3s;
     }
-    @media (max-width: 600px) {
-      .units { grid-template-columns: repeat(2, auto); }
-      .dates-grid { grid-template-columns: repeat(2, 1fr); }
+    .grid-item:hover { background: rgba(0,0,0,0.7); }
+    footer {
+      position: relative;
+      margin-top: auto;
+      width: 100%;
+      text-align: center;
+      font-size: 0.8rem;
+      color: rgba(255,255,255,0.7);
+      z-index: 1;
+      padding: 10px;
     }
     canvas#confetti {
       position: fixed;
@@ -124,7 +129,7 @@
   </style>
 </head>
 <body>
-  <iframe class="bgvideo" src="https://webcam-rotterdam.nl/pages/cameras/de-esch.php" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+  <iframe class="bgvideo" src="https://webcam-rotterdam.nl/pages/cameras/de-esch.php" allowfullscreen></iframe>
   <div class="overlay"></div>
 
   <div class="countdown-container">
@@ -149,27 +154,29 @@
     </div>
   </div>
 
-  <div class="dates-grid">
-    <div id="date1" class="date-box">22-09-2025</div>
-    <div class="date-box">Datum 2</div>
-    <div class="date-box">Datum 3</div>
-    <div class="date-box">Datum 4</div>
-    <div class="date-box">Datum 5</div>
-    <div class="date-box">Datum 6</div>
-    <div class="date-box">Datum 7</div>
-    <div class="date-box">Datum 8</div>
-    <div class="date-box">Datum 9</div>
-    <div class="date-box">Datum 10</div>
-    <div class="date-box">Datum 11</div>
-    <div class="date-box">Datum 12</div>
+  <div class="grid-container">
+    <div id="gift1" class="grid-item">Vakje 1</div>
+    <div id="gift2" class="grid-item">Vakje 2</div>
+    <div class="grid-item">Vakje 3</div>
+    <div class="grid-item">Vakje 4</div>
+    <div class="grid-item">Vakje 5</div>
+    <div class="grid-item">Vakje 6</div>
+    <div class="grid-item">Vakje 7</div>
+    <div class="grid-item">Vakje 8</div>
+    <div class="grid-item">Vakje 9</div>
+    <div class="grid-item">Vakje 10</div>
+    <div class="grid-item">Vakje 11</div>
+    <div class="grid-item">Vakje 12</div>
   </div>
+
+  <footer>
+    Achtergrond livestream: <a href="https://webcam-rotterdam.nl/pages/cameras/de-esch.php" target="_blank" style="color:#fff;">Bekijk hier</a>
+  </footer>
 
   <canvas id="confetti"></canvas>
 
   <script>
-    const targetDate = new Date(2026, 8, 1, 0, 0, 0); // 1 september 2026
-    const giftDate1 = new Date(2025, 8, 22, 0, 0, 0); // 22 september 2025
-
+    const targetDate = new Date(2026, 8, 1, 0, 0, 0);
     const confettiCanvas = document.getElementById('confetti');
     const ctx = confettiCanvas.getContext('2d');
 
@@ -227,34 +234,41 @@
     let confettiInterval;
 
     function startConfetti() {
+      confettiParticles = [];
       createConfetti();
       confettiInterval = setInterval(drawConfetti, 20);
-      setTimeout(() => clearInterval(confettiInterval), 15000);
+      setTimeout(() => clearInterval(confettiInterval), 8000);
     }
 
-    function launchGift() {
-      const gift = document.createElement("div");
-      gift.className = "gift";
-      gift.textContent = "🎁";
-      gift.style.left = Math.random() * (window.innerWidth - 50) + "px";
-      document.body.appendChild(gift);
-      setTimeout(() => gift.remove(), 4000);
-    }
-
-    function checkMonthlyGift() {
+    // Cadeau vakje 1 met datum
+    const gift1Date = new Date(2025, 8, 22, 0, 0, 0);
+    const gift1El = document.getElementById('gift1');
+    function updateGift1() {
       const now = new Date();
-      if (now.getDate() === 1 && now.getHours() === 0 && now.getMinutes() === 0 && now.getSeconds() < 5) {
-        for (let i = 0; i < 5; i++) {
-          setTimeout(launchGift, i * 800);
-        }
-        startConfetti();
+      const diff = gift1Date - now;
+      if (diff <= 0) {
+        gift1El.textContent = "Klik voor cadeau 1";
+        gift1El.onclick = () => {
+          startConfetti();
+          gift1El.textContent = "Cadeau 1";
+          gift1El.onclick = null;
+        };
+      } else {
+        const days = Math.floor(diff / (1000*60*60*24));
+        gift1El.textContent = days + " dagen";
       }
     }
+    setInterval(updateGift1, 1000*60*60);
+    updateGift1();
 
-    setInterval(checkMonthlyGift, 1000);
+    // Cadeau vakje 2: altijd voorbeeld
+    const gift2El = document.getElementById('gift2');
+    gift2El.onclick = () => {
+      startConfetti();
+    };
 
+    // Hoofdcountdown
     function pad(n) { return String(n).padStart(2, '0'); }
-
     function updateCountdown() {
       const now = new Date();
       const diff = targetDate - now;
@@ -277,29 +291,8 @@
       document.getElementById('minutes').textContent = pad(minutes);
       document.getElementById('seconds').textContent = pad(seconds);
     }
-
     updateCountdown();
     const intervalId = setInterval(updateCountdown, 1000);
-
-    // Vakje 1 functionaliteit
-    const date1Box = document.getElementById("date1");
-    function updateDate1Countdown() {
-      const now = new Date();
-      const diff = giftDate1 - now;
-      if (diff > 0) {
-        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-        date1Box.textContent = days + " dagen";
-      } else {
-        date1Box.textContent = "Klik voor cadeau 1";
-        date1Box.onclick = () => {
-          startConfetti();
-          date1Box.textContent = "Cadeau 1";
-          date1Box.onclick = null;
-        };
-      }
-    }
-    setInterval(updateDate1Countdown, 1000);
-    updateDate1Countdown();
   </script>
 </body>
 </html>
