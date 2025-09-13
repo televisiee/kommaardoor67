@@ -4,15 +4,16 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Kommaardoor67</title>
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
+      --overlay-color: rgba(0, 0, 0, 0.45);
       --accent: #06b6d4;
       --text-light: #ffffff;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    html, body { height: 100%; }
+    html, body { height: 100%; font-family: 'Open Sans', sans-serif; }
     body {
-      font-family: 'Montserrat', Arial, sans-serif;
       color: var(--text-light);
       background-color: #001f3f;
       display: flex;
@@ -21,90 +22,79 @@
       justify-content: flex-start;
       text-align: center;
       padding-top: 40px;
-      overflow-x: hidden;
     }
-
-    /* Achtergrondvideo */
-    #bg-video {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      z-index: -2;
+    .overlay {
+      position: absolute;
+      top:0; left:0; width:100%; height:100%;
+      background: var(--overlay-color);
+      z-index: 0;
     }
-    .gradient-overlay {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: linear-gradient(to bottom, rgba(0,32,64,0.8), rgba(0,32,64,0.2));
-      z-index: -1;
-    }
-
     .main-container {
+      position: relative;
+      z-index: 1;
       background: rgba(0,0,0,0.55);
       border-radius: 20px;
-      box-shadow: 0 6px 20px rgba(0,0,0,0.6);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.7);
       padding: 30px;
-      width: 90%;
       max-width: 900px;
-      z-index: 1;
+      width: 100%;
     }
-    .main-container h1 {
+    h1 {
       font-size: 2.5rem;
       margin-bottom: 20px;
+      font-weight: 700;
     }
-
     .units {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       gap: 20px;
       justify-content: center;
-      margin-bottom: 40px;
+      margin-bottom: 30px;
     }
     .unit {
-      background: rgba(255,255,255,0.05);
+      background: rgba(0,0,0,0.4);
       padding: 20px;
-      border-radius: 10px;
+      border-radius: 15px;
       min-width: 80px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.7);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .unit:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 15px rgba(0,0,0,0.8);
     }
     .unit .number {
-      font-size: 2.5rem;
-      font-weight: bold;
+      font-size: 2.2rem;
+      font-weight: 600;
     }
     .unit .label {
-      font-size: 1rem;
+      font-size: 0.95rem;
       margin-top: 5px;
       text-transform: uppercase;
     }
-
-    .grid-vakjes {
+    .vakjes {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-      gap: 20px;
-      width: 100%;
+      gap: 15px;
+      margin-top: 20px;
     }
     .vakje {
-      background: rgba(255,255,255,0.05);
+      background: rgba(0,0,0,0.4);
       border-radius: 15px;
-      padding: 20px;
+      padding: 15px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.7);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
       cursor: pointer;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.4);
-      transition: transform 0.2s, box-shadow 0.2s, background 0.3s;
     }
     .vakje:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 6px 15px var(--accent);
-      background: rgba(0,0,0,0.6);
+      transform: translateY(-3px);
+      box-shadow: 0 6px 15px rgba(0,0,0,0.8);
     }
-
     footer {
       margin-top: 20px;
       font-size: 0.8rem;
       color: rgba(255,255,255,0.7);
     }
-
     canvas#confetti {
       position: fixed;
       top: 0;
@@ -117,9 +107,7 @@
   </style>
 </head>
 <body>
-  <video id="bg-video" autoplay muted loop playsinline></video>
-  <div class="gradient-overlay"></div>
-
+  <div class="overlay"></div>
   <div class="main-container">
     <h1>Kommaardoor67</h1>
     <div id="countdown" class="units">
@@ -140,8 +128,7 @@
         <div class="label">Seconden</div>
       </div>
     </div>
-
-    <div class="grid-vakjes">
+    <div class="vakjes">
       <div id="vakje1" class="vakje">Vakje 1</div>
       <div id="vakje2" class="vakje">Vakje 2</div>
       <div class="vakje">Vakje 3</div>
@@ -155,40 +142,49 @@
       <div class="vakje">Vakje 11</div>
       <div class="vakje">Vakje 12</div>
     </div>
-
-    <footer>
-      Live achtergrond via HLS stream
-    </footer>
   </div>
+  <footer>
+    Achtergrond livestream via HLS.js
+  </footer>
 
   <canvas id="confetti"></canvas>
 
   <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
   <script>
-    const video = document.getElementById('bg-video');
-    const videoSrc = "https://6162417352ffd.streamlock.net/hls/platjeoost.stream/playlist.m3u8?wowzatokenendtime=1757796594&wowzatokenhash=eJFFO4EENR3i9PBuoKdDV4UOJTdnW7DF4_DLXtVb89Y=&wowzatokenstarttime=1757794734";
-    if (Hls.isSupported()) {
-      const hls = new Hls();
-      hls.loadSource(videoSrc);
-      hls.attachMedia(video);
-    } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-      video.src = videoSrc;
-    }
-
     const targetDate = new Date(2026, 8, 1, 0, 0, 0);
+
+    function pad(n) { return String(n).padStart(2, '0'); }
+
+    function updateCountdown() {
+      const now = new Date();
+      const diff = targetDate - now;
+      if (diff <= 0) {
+        document.getElementById('countdown').innerHTML = "<h2>🎉 Pensioen bereikt!</h2>";
+        clearInterval(intervalId);
+        startConfetti();
+        return;
+      }
+      const secondsTotal = Math.floor(diff / 1000);
+      const days = Math.floor(secondsTotal / (24 * 3600));
+      const hours = Math.floor((secondsTotal % (24 * 3600)) / 3600);
+      const minutes = Math.floor((secondsTotal % 3600) / 60);
+      const seconds = secondsTotal % 60;
+      document.getElementById('days').textContent = days;
+      document.getElementById('hours').textContent = pad(hours);
+      document.getElementById('minutes').textContent = pad(minutes);
+      document.getElementById('seconds').textContent = pad(seconds);
+    }
+    updateCountdown();
+    const intervalId = setInterval(updateCountdown, 1000);
+
+    // Confetti
     const confettiCanvas = document.getElementById('confetti');
     const ctx = confettiCanvas.getContext('2d');
-
-    function resizeCanvas() {
-      confettiCanvas.width = window.innerWidth;
-      confettiCanvas.height = window.innerHeight;
-    }
-    window.addEventListener('resize', resizeCanvas);
-    resizeCanvas();
-
+    function resizeCanvas() { confettiCanvas.width = window.innerWidth; confettiCanvas.height = window.innerHeight; }
+    window.addEventListener('resize', resizeCanvas); resizeCanvas();
     let confettiParticles = [];
     function createConfetti() {
-      for (let i = 0; i < 200; i++) {
+      for (let i = 0; i < 150; i++) {
         confettiParticles.push({
           x: Math.random() * confettiCanvas.width,
           y: Math.random() * confettiCanvas.height - confettiCanvas.height,
@@ -219,69 +215,22 @@
         p.y += (Math.cos(p.d) + 3 + p.r / 2) / 2;
         p.x += Math.sin(p.d);
         p.tilt = Math.sin(p.tiltAngle) * 15;
-        if (p.y > confettiCanvas.height) {
-          p.x = Math.random() * confettiCanvas.width;
-          p.y = -10;
-        }
+        if (p.y > confettiCanvas.height) { p.x = Math.random() * confettiCanvas.width; p.y = -10; }
       });
     }
     let confettiInterval;
     function startConfetti() {
+      confettiParticles = [];
       createConfetti();
       confettiInterval = setInterval(drawConfetti, 20);
-      setTimeout(() => clearInterval(confettiInterval), 15000);
+      setTimeout(() => clearInterval(confettiInterval), 10000);
     }
 
-    // Vakje 1 countdown tot 22 september 2025
-    const vakje1 = document.getElementById('vakje1');
-    const vakje1Date = new Date(2025, 8, 22, 0, 0, 0);
-    function updateVakje1() {
-      const now = new Date();
-      const diff = vakje1Date - now;
-      if (diff <= 0) {
-        vakje1.textContent = "Klik voor cadeau 1";
-        vakje1.onclick = () => {
-          startConfetti();
-          vakje1.textContent = "Cadeau 1";
-        };
-      } else {
-        const days = Math.floor(diff / (1000*60*60*24));
-        vakje1.textContent = days + " dagen";
-      }
-    }
-    setInterval(updateVakje1, 1000*60*60);
-    updateVakje1();
-
-    // Vakje 2 voorbeeld
-    const vakje2 = document.getElementById('vakje2');
-    vakje2.onclick = () => {
+    // Vakje 2 klik
+    document.getElementById('vakje2').addEventListener('click', () => {
       startConfetti();
-      vakje2.textContent = "Open cadeautje #2";
-    };
-
-    // Countdown hoofd
-    function pad(n) { return String(n).padStart(2, '0'); }
-    function updateCountdown() {
-      const now = new Date();
-      const diff = targetDate - now;
-      if (diff <= 0) {
-        document.getElementById('countdown').innerHTML = "<h2>🎉 Pensioen bereikt!</h2>";
-        clearInterval(intervalId);
-        startConfetti();
-        return;
-      }
-      const secondsTotal = Math.floor(diff / 1000);
-      const days = Math.floor(secondsTotal / (24 * 3600));
-      const hours = Math.floor((secondsTotal % (24 * 3600)) / 3600);
-      const minutes = Math.floor((secondsTotal % 3600) / 60);
-      const seconds = secondsTotal % 60;
-      document.getElementById('days').textContent = days;
-      document.getElementById('hours').textContent = pad(hours);
-      document.getElementById('minutes').textContent = pad(minutes);
-      document.getElementById('seconds').textContent = pad(seconds);
-    }
-    updateCountdown();
-    const intervalId = setInterval(updateCountdown, 1000);
+      document.getElementById('vakje2').textContent = 'Open cadeautje #2';
+    });
   </script>
 </body>
 </html>
