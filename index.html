@@ -1,108 +1,109 @@
-<!doctype html>
 <!-- 
-/////////////////////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////////////////////
-////                                                                                             ////
-////                                    nee pap geen spoilers                                    ////
-////                                                                                             ////
-/////////////////////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////////////////////
+#######################################################################
+#                                                                     #
+#               nee pap geen spoilers                                  #
+#                                                                     #
+#######################################################################
 -->
+
+<!doctype html>
 <html lang="nl">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Kommaardoor67</title>
   <style>
-    :root {
-      --overlay-gradient: linear-gradient(to bottom, rgba(0,0,20,0.95) 0%, rgba(0,20,60,0.85) 50%, rgba(0,31,63,0) 100%);
-    }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    html, body { height: 100%; font-family: 'Courier New', monospace; color: #fff; }
-    body {
-      background: #001f3f;
+    body, html {
+      margin: 0;
+      height: 100%;
+      font-family: monospace;
+      color: white;
       overflow: hidden;
     }
-    a { color: #fff; }
+
+    /* Achtergrondvideo */
     .background {
       position: fixed;
-      top:0; left:0; width:100%; height:100%;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: -2;
       overflow: hidden;
-      z-index: 0;
     }
     .background iframe {
-      width:100%; height:100%;
-      border:0;
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      top: 0; left: 0;
+      pointer-events: none;
     }
     .overlay {
       position: fixed;
-      top:0; left:0; width:100%; height:100%;
-      background: var(--overlay-gradient);
-      z-index: 1;
+      top:0; left:0;
+      width:100%; height:100%;
+      background: linear-gradient(to bottom, rgba(0,31,63,0.9) 50%, rgba(0,31,63,0) 100%);
+      z-index: -1;
     }
+
+    /* Content */
     .content {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      z-index: 2;
-      max-width: 900px;
-      width: 100%;
-      padding: 20px;
+      position: relative;
+      z-index: 1;
       text-align: center;
+      padding: 20px;
     }
     h1 {
-      font-size: 3.5rem;
+      font-size: clamp(2rem, 6vw, 4rem);
       font-weight: bold;
       margin-bottom: 20px;
     }
     .units {
       display: flex;
       justify-content: center;
-      gap: 30px;
+      flex-wrap: wrap;
+      gap: clamp(10px, 5vw, 30px);
       margin-bottom: 30px;
     }
     .unit .number {
-      font-size: 4rem;
+      font-size: clamp(1.5rem, 8vw, 4rem);
       font-weight: bold;
     }
+
+    /* Vakjes schaalbaar */
     .grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-      gap: 20px;
+      gap: 15px;
+      max-width: 900px;
+      margin: 0 auto;
     }
     .box {
+      background: rgba(0,0,0,0.5);
       padding: 20px;
-      border-radius: 15px;
-      transition: transform 0.2s ease;
+      border-radius: 10px;
       cursor: pointer;
+      transition: transform 0.2s ease;
     }
-    .box:hover {
-      transform: translateY(-4px);
-    }
+    .box:hover { transform: translateY(-4px); }
+
+    /* Confetti */
     canvas#confetti {
       position: fixed;
       top: 0; left: 0;
       width: 100%; height: 100%;
       pointer-events: none;
-      z-index: 10;
+      z-index: 2;
     }
   </style>
 </head>
 <body>
-  <!-- Achtergrond YouTube livestream -->
+  <!-- Achtergrond YouTube -->
   <div class="background">
-    <iframe
-      src="https://www.youtube.com/embed/gsViKzj7nuQ?autoplay=1&mute=1&loop=1&playlist=gsViKzj7nuQ"
-      allow="autoplay; encrypted-media"
-      allowfullscreen>
+    <iframe src="https://www.youtube.com/embed/gsViKzj7nuQ?autoplay=1&mute=1&controls=0&loop=1&playsinline=1&playlist=gsViKzj7nuQ"
+      frameborder="0" allow="autoplay; fullscreen">
     </iframe>
   </div>
   <div class="overlay"></div>
 
-  <!-- Inhoud -->
   <div class="content">
     <h1>Kommaardoor67</h1>
     <div id="countdown" class="units">
@@ -111,19 +112,20 @@
       <div class="unit"><div id="minutes" class="number">--</div></div>
       <div class="unit"><div id="seconds" class="number">--</div></div>
     </div>
+
     <div class="grid">
       <div class="box" id="box1">Vakje 1</div>
-      <div class="box" id="box2">Vakje 2</div>
-      <div class="box">Vakje 3</div>
-      <div class="box">Vakje 4</div>
-      <div class="box">Vakje 5</div>
-      <div class="box">Vakje 6</div>
-      <div class="box">Vakje 7</div>
-      <div class="box">Vakje 8</div>
-      <div class="box">Vakje 9</div>
-      <div class="box">Vakje 10</div>
-      <div class="box">Vakje 11</div>
-      <div class="box">Vakje 12</div>
+      <div class="box">TBA</div>
+      <div class="box">TBA</div>
+      <div class="box">TBA</div>
+      <div class="box">TBA</div>
+      <div class="box">TBA</div>
+      <div class="box">TBA</div>
+      <div class="box">TBA</div>
+      <div class="box">TBA</div>
+      <div class="box">TBA</div>
+      <div class="box">TBA</div>
+      <div class="box">TBA</div>
     </div>
   </div>
   <canvas id="confetti"></canvas>
@@ -172,10 +174,6 @@
         p.y += (Math.cos(p.d) + 3 + p.r / 2) / 2;
         p.x += Math.sin(p.d);
         p.tilt = Math.sin(p.tiltAngle) * 15;
-        if (p.y > confettiCanvas.height) {
-          p.x = Math.random() * confettiCanvas.width;
-          p.y = -10;
-        }
       });
     }
     let confettiInterval;
@@ -183,10 +181,13 @@
       confettiParticles = [];
       createConfetti();
       confettiInterval = setInterval(drawConfetti, 20);
-      setTimeout(() => clearInterval(confettiInterval), 10000); // stopt na 10s
+      setTimeout(() => {
+        clearInterval(confettiInterval);
+        ctx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
+      }, 10000); // confetti stopt én canvas wordt leeggemaakt
     }
 
-    // Countdown hoofd (pensioen)
+    // Countdown naar pensioen
     const targetDate = new Date(2026, 8, 1, 0, 0, 0);
     function pad(n) { return String(n).padStart(2, '0'); }
     function updateCountdown() {
@@ -212,32 +213,22 @@
     updateCountdown();
     const intervalId = setInterval(updateCountdown, 1000);
 
-    // Box 1 countdown tot 22 september 2025
-    const box1 = document.getElementById('box1');
+    // Box 1 aftellen tot 22 september 2025
     const box1Date = new Date(2025, 8, 22, 0, 0, 0);
+    const box1 = document.getElementById('box1');
     function updateBox1() {
       const now = new Date();
-      const diff = box1Date - now;
-      if (diff <= 0) {
-        box1.textContent = "Klik voor cadeau 1";
-        box1.onclick = () => {
-          startConfetti();
-          box1.textContent = "Cadeau 1";
-          box1.onclick = null;
-        };
+      if (now >= box1Date) {
+        box1.textContent = "Cadeau 1 🎁";
+        box1.onclick = () => startConfetti();
       } else {
+        const diff = box1Date - now;
         const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-        box1.textContent = `${days} dagen`;
+        box1.textContent = "Nog " + days + " dagen";
       }
     }
     updateBox1();
-    setInterval(updateBox1, 1000);
-
-    // Box 2 confetti voorbeeld
-    document.getElementById('box2').addEventListener('click', () => {
-      startConfetti();
-      document.getElementById('box2').textContent = "Open cadeautje #2";
-    });
+    setInterval(updateBox1, 60000);
   </script>
 </body>
 </html>
