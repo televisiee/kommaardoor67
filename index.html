@@ -7,12 +7,7 @@
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
     :root {
-      --overlay-gradient: linear-gradient(
-        to bottom,
-        rgba(0,31,63,0.6),
-        rgba(0,31,63,0.2),
-        rgba(0,31,63,0)
-      );
+      --overlay-gradient: linear-gradient(to bottom, rgba(0,31,63,0.8), rgba(0,31,63,0));
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     html, body { height: 100%; font-family: 'Open Sans', sans-serif; color: #fff; }
@@ -30,16 +25,15 @@
       overflow: hidden;
       z-index: 0;
     }
-    .background video {
+    .background iframe {
       width:100%; height:100%;
-      object-fit: cover;
+      border:0;
     }
     .overlay {
       position: fixed;
       top:0; left:0; width:100%; height:100%;
       background: var(--overlay-gradient);
       z-index: 1;
-      pointer-events: none;
     }
     .content {
       position: relative;
@@ -47,6 +41,7 @@
       max-width: 900px;
       width: 100%;
       padding: 20px;
+      border-radius: 20px;
       text-align: center;
     }
     h1 {
@@ -96,10 +91,17 @@
   </style>
 </head>
 <body>
+  <!-- Achtergrond YouTube livestream -->
   <div class="background">
-    <video id="bgVideo" autoplay muted loop playsinline></video>
+    <iframe
+      src="https://www.youtube.com/embed/gsViKzj7nuQ?autoplay=1&mute=1&loop=1&playlist=gsViKzj7nuQ"
+      allow="autoplay; encrypted-media"
+      allowfullscreen>
+    </iframe>
   </div>
   <div class="overlay"></div>
+
+  <!-- Inhoud -->
   <div class="content">
     <h1>Kommaardoor67</h1>
     <div id="countdown" class="units">
@@ -125,18 +127,7 @@
   </div>
   <canvas id="confetti"></canvas>
 
-  <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
   <script>
-    // Video achtergrond
-    const video = document.getElementById('bgVideo');
-    if (Hls.isSupported()) {
-      const hls = new Hls();
-      hls.loadSource("https://6162417352ffd.streamlock.net/hls/platjeoost.stream/playlist.m3u8?wowzatokenendtime=1757796594&wowzatokenhash=eJFFO4EENR3i9PBuoKdDV4UOJTdnW7DF4_DLXtVb89Y=&wowzatokenstarttime=1757794734");
-      hls.attachMedia(video);
-    } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-      video.src = "https://6162417352ffd.streamlock.net/hls/platjeoost.stream/playlist.m3u8?wowzatokenendtime=1757796594&wowzatokenhash=eJFFO4EENR3i9PBuoKdDV4UOJTdnW7DF4_DLXtVb89Y=&wowzatokenstarttime=1757794734";
-    }
-
     // Confetti
     const confettiCanvas = document.getElementById('confetti');
     const ctx = confettiCanvas.getContext('2d');
