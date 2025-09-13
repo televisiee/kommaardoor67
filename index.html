@@ -6,7 +6,6 @@
   <title>Kommaardoor67</title>
   <style>
     :root {
-      --overlay-color: rgba(0, 0, 0, 0.45);
       --accent: #06b6d4;
       --text-light: #ffffff;
     }
@@ -21,7 +20,7 @@
       align-items: center;
       justify-content: flex-start;
       text-align: center;
-      padding-top: 60px;
+      padding-top: 40px;
       overflow-x: hidden;
     }
 
@@ -43,35 +42,32 @@
       z-index: -1;
     }
 
-    .overlay { display: none; }
-
-    .countdown-container {
-      position: relative;
+    .main-container {
+      background: rgba(0,0,0,0.55);
+      border-radius: 20px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.6);
+      padding: 30px;
+      width: 90%;
+      max-width: 900px;
       z-index: 1;
-      padding: 20px;
-      border-radius: 15px;
     }
-    .countdown-container h1 {
+    .main-container h1 {
       font-size: 2.5rem;
       margin-bottom: 20px;
     }
+
     .units {
       display: grid;
-      grid-template-columns: repeat(4, auto);
+      grid-template-columns: repeat(4, 1fr);
       gap: 20px;
       justify-content: center;
+      margin-bottom: 40px;
     }
     .unit {
-      background: rgba(0,0,0,0.4);
+      background: rgba(255,255,255,0.05);
       padding: 20px;
       border-radius: 10px;
       min-width: 80px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.5);
-      transition: transform 0.2s, box-shadow 0.2s;
-    }
-    .unit:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 6px 15px var(--accent);
     }
     .unit .number {
       font-size: 2.5rem;
@@ -84,21 +80,17 @@
     }
 
     .grid-vakjes {
-      margin-top: 40px;
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
       gap: 20px;
-      width: 90%;
-      max-width: 900px;
-      z-index: 1;
+      width: 100%;
     }
     .vakje {
-      background: rgba(0,0,0,0.5);
-      border: 2px solid var(--accent);
+      background: rgba(255,255,255,0.05);
       border-radius: 15px;
       padding: 20px;
       cursor: pointer;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.4);
       transition: transform 0.2s, box-shadow 0.2s, background 0.3s;
     }
     .vakje:hover {
@@ -108,10 +100,7 @@
     }
 
     footer {
-      position: absolute;
-      bottom: 10px;
-      width: 100%;
-      text-align: center;
+      margin-top: 20px;
       font-size: 0.8rem;
       color: rgba(255,255,255,0.7);
     }
@@ -125,33 +114,13 @@
       pointer-events: none;
       z-index: 10;
     }
-    .gift {
-      position: fixed;
-      font-size: 3rem;
-      z-index: 11;
-      pointer-events: none;
-      animation: floatGift 4s ease-in-out forwards;
-    }
-    .gift::after {
-      content: "🎀";
-      position: absolute;
-      top: -1rem;
-      left: 0.5rem;
-      font-size: 1.5rem;
-    }
-    @keyframes floatGift {
-      0% { transform: translateY(-100px) scale(0.5); opacity: 0; }
-      30% { opacity: 1; }
-      70% { transform: translateY(200px) scale(1.2); }
-      100% { transform: translateY(400px) scale(0.8); opacity: 0; }
-    }
   </style>
 </head>
 <body>
   <video id="bg-video" autoplay muted loop playsinline></video>
   <div class="gradient-overlay"></div>
 
-  <div class="countdown-container">
+  <div class="main-container">
     <h1>Kommaardoor67</h1>
     <div id="countdown" class="units">
       <div class="unit">
@@ -171,26 +140,26 @@
         <div class="label">Seconden</div>
       </div>
     </div>
-  </div>
 
-  <div class="grid-vakjes">
-    <div id="vakje1" class="vakje">Vakje 1</div>
-    <div id="vakje2" class="vakje">Vakje 2</div>
-    <div class="vakje">Vakje 3</div>
-    <div class="vakje">Vakje 4</div>
-    <div class="vakje">Vakje 5</div>
-    <div class="vakje">Vakje 6</div>
-    <div class="vakje">Vakje 7</div>
-    <div class="vakje">Vakje 8</div>
-    <div class="vakje">Vakje 9</div>
-    <div class="vakje">Vakje 10</div>
-    <div class="vakje">Vakje 11</div>
-    <div class="vakje">Vakje 12</div>
-  </div>
+    <div class="grid-vakjes">
+      <div id="vakje1" class="vakje">Vakje 1</div>
+      <div id="vakje2" class="vakje">Vakje 2</div>
+      <div class="vakje">Vakje 3</div>
+      <div class="vakje">Vakje 4</div>
+      <div class="vakje">Vakje 5</div>
+      <div class="vakje">Vakje 6</div>
+      <div class="vakje">Vakje 7</div>
+      <div class="vakje">Vakje 8</div>
+      <div class="vakje">Vakje 9</div>
+      <div class="vakje">Vakje 10</div>
+      <div class="vakje">Vakje 11</div>
+      <div class="vakje">Vakje 12</div>
+    </div>
 
-  <footer>
-    Live achtergrond via HLS stream
-  </footer>
+    <footer>
+      Live achtergrond via HLS stream
+    </footer>
+  </div>
 
   <canvas id="confetti"></canvas>
 
@@ -283,7 +252,7 @@
     setInterval(updateVakje1, 1000*60*60);
     updateVakje1();
 
-    // Vakje 2 voorbeeld: klik → confetti en tekst verandert
+    // Vakje 2 voorbeeld
     const vakje2 = document.getElementById('vakje2');
     vakje2.onclick = () => {
       startConfetti();
