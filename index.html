@@ -1,9 +1,34 @@
 <!-- 
-#######################################################################
-#                                                                     #
-#               nee pap geen spoilers                                  #
-#                                                                     #
-#######################################################################
+######################
+######################
+######################
+######################
+######################
+######################
+######################
+######################
+######################
+######################
+######################
+######################
+######################
+
+
+nee pap geen spoilers 
+
+
+######################
+######################
+######################
+######################
+######################
+######################
+######################
+######################
+######################
+######################
+######################
+######################
 -->
 
 <!doctype html>
@@ -13,93 +38,96 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Kommaardoor67</title>
   <style>
-    body, html {
-      margin: 0;
-      height: 100%;
-      font-family: monospace;
-      color: white;
-      overflow: hidden;
+    :root {
+      --overlay-gradient: linear-gradient(to bottom, rgba(0,31,63,0.9) 50%, rgba(0,31,63,0.4) 80%, rgba(0,31,63,0) 100%);
     }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; font-family: "Courier New", monospace; color: #fff; overflow: hidden; }
+    body { display: flex; align-items: center; justify-content: center; background: #001f3f; }
+    a { color: #fff; }
 
-    /* Achtergrondvideo */
     .background {
       position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      z-index: -2;
+      top:0; left:0; width:100%; height:100%;
       overflow: hidden;
+      z-index: 0;
     }
     .background iframe {
-      width: 100%;
-      height: 100%;
       position: absolute;
-      top: 0; left: 0;
+      top: 50%;
+      left: 50%;
+      height: 100vh;
+      width: 177.78vh; /* 16:9 verhouding */
+      min-width: 100vw;
+      min-height: 100vh;
+      transform: translate(-50%, -50%);
       pointer-events: none;
-    }
-    .overlay {
-      position: fixed;
-      top:0; left:0;
-      width:100%; height:100%;
-      background: linear-gradient(to bottom, rgba(0,31,63,0.9) 50%, rgba(0,31,63,0) 100%);
-      z-index: -1;
+      border: 0;
     }
 
-    /* Content */
+    .overlay {
+      position: fixed;
+      top:0; left:0; width:100%; height:100%;
+      background: var(--overlay-gradient);
+      z-index: 1;
+    }
+
     .content {
       position: relative;
-      z-index: 1;
-      text-align: center;
+      z-index: 2;
+      max-width: 900px;
+      width: 100%;
       padding: 20px;
+      text-align: center;
     }
+
     h1 {
       font-size: clamp(2rem, 6vw, 4rem);
       font-weight: bold;
       margin-bottom: 20px;
     }
+
     .units {
       display: flex;
       justify-content: center;
-      flex-wrap: wrap;
       gap: clamp(10px, 5vw, 30px);
       margin-bottom: 30px;
+      flex-wrap: wrap;
     }
     .unit .number {
       font-size: clamp(1.5rem, 8vw, 4rem);
       font-weight: bold;
     }
 
-    /* Vakjes schaalbaar */
     .grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
       gap: 15px;
-      max-width: 900px;
-      margin: 0 auto;
     }
     .box {
-      background: rgba(0,0,0,0.5);
       padding: 20px;
-      border-radius: 10px;
-      cursor: pointer;
+      border-radius: 15px;
       transition: transform 0.2s ease;
+      cursor: pointer;
+      background: transparent; /* geen grijze vlakken meer */
     }
     .box:hover { transform: translateY(-4px); }
 
-    /* Confetti */
     canvas#confetti {
       position: fixed;
       top: 0; left: 0;
       width: 100%; height: 100%;
       pointer-events: none;
-      z-index: 2;
+      z-index: 10;
     }
   </style>
 </head>
 <body>
-  <!-- Achtergrond YouTube -->
   <div class="background">
-    <iframe src="https://www.youtube.com/embed/gsViKzj7nuQ?autoplay=1&mute=1&controls=0&loop=1&playsinline=1&playlist=gsViKzj7nuQ"
-      frameborder="0" allow="autoplay; fullscreen">
+    <iframe
+      src="https://www.youtube.com/embed/gsViKzj7nuQ?autoplay=1&mute=1&loop=1&playlist=gsViKzj7nuQ&controls=0&showinfo=0&modestbranding=1"
+      allow="autoplay; encrypted-media"
+      allowfullscreen>
     </iframe>
   </div>
   <div class="overlay"></div>
@@ -112,10 +140,9 @@
       <div class="unit"><div id="minutes" class="number">--</div></div>
       <div class="unit"><div id="seconds" class="number">--</div></div>
     </div>
-
     <div class="grid">
       <div class="box" id="box1">Vakje 1</div>
-      <div class="box">TBA</div>
+      <div class="box" id="box2">TBA</div>
       <div class="box">TBA</div>
       <div class="box">TBA</div>
       <div class="box">TBA</div>
@@ -142,7 +169,9 @@
     resizeCanvas();
 
     let confettiParticles = [];
+    let confettiInterval;
     function createConfetti() {
+      confettiParticles = [];
       for (let i = 0; i < 200; i++) {
         confettiParticles.push({
           x: Math.random() * confettiCanvas.width,
@@ -176,18 +205,17 @@
         p.tilt = Math.sin(p.tiltAngle) * 15;
       });
     }
-    let confettiInterval;
     function startConfetti() {
-      confettiParticles = [];
       createConfetti();
+      if (confettiInterval) clearInterval(confettiInterval);
       confettiInterval = setInterval(drawConfetti, 20);
       setTimeout(() => {
         clearInterval(confettiInterval);
         ctx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
-      }, 10000); // confetti stopt én canvas wordt leeggemaakt
+      }, 10000);
     }
 
-    // Countdown naar pensioen
+    // Countdown hoofddatum
     const targetDate = new Date(2026, 8, 1, 0, 0, 0);
     function pad(n) { return String(n).padStart(2, '0'); }
     function updateCountdown() {
@@ -204,7 +232,6 @@
       const hours = Math.floor((secondsTotal % (24 * 3600)) / 3600);
       const minutes = Math.floor((secondsTotal % 3600) / 60);
       const seconds = secondsTotal % 60;
-
       document.getElementById('days').textContent = days;
       document.getElementById('hours').textContent = pad(hours);
       document.getElementById('minutes').textContent = pad(minutes);
@@ -213,22 +240,33 @@
     updateCountdown();
     const intervalId = setInterval(updateCountdown, 1000);
 
-    // Box 1 aftellen tot 22 september 2025
-    const box1Date = new Date(2025, 8, 22, 0, 0, 0);
+    // Box1: aftellen tot 22 sep 2025
     const box1 = document.getElementById('box1');
+    const gift1Date = new Date(2025, 8, 22, 0, 0, 0);
     function updateBox1() {
       const now = new Date();
-      if (now >= box1Date) {
-        box1.textContent = "Cadeau 1 🎁";
-        box1.onclick = () => startConfetti();
-      } else {
-        const diff = box1Date - now;
+      const diff = gift1Date - now;
+      if (diff > 0) {
         const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-        box1.textContent = "Nog " + days + " dagen";
+        box1.textContent = days + " dagen";
+      } else {
+        box1.textContent = "Klik voor cadeau 1";
+        box1.onclick = () => {
+          startConfetti();
+          box1.textContent = "Cadeau 1";
+          box1.onclick = null;
+        };
       }
     }
     updateBox1();
-    setInterval(updateBox1, 60000);
+    setInterval(updateBox1, 1000);
+
+    // Box2 voorbeeld
+    const box2 = document.getElementById('box2');
+    box2.addEventListener('click', () => {
+      startConfetti();
+      box2.textContent = "Open cadeautje #2";
+    });
   </script>
 </body>
 </html>
