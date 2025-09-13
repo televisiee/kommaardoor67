@@ -5,137 +5,106 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Kommaardoor67</title>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap');
+
     :root {
-      --overlay-gradient: linear-gradient(to bottom, rgba(0,31,63,0.8), rgba(0,31,63,0.3), rgba(0,31,63,0));
+      --overlay-color: rgba(0, 0, 0, 0.45);
+      --accent1: #7c3aed;
+      --accent2: #06b6d4;
+      --text-light: #ffffff;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    html, body { height: 100%; font-family: 'Open Sans', sans-serif; color: #fff; }
+    html, body { height: 100%; }
     body {
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      font-family: 'Open Sans', sans-serif;
+      color: var(--text-light);
       background: #001f3f;
+      margin: 0;
       overflow: hidden;
     }
-    a { color: #fff; }
-    .background {
-      position: fixed;
-      top:0; left:0; width:100%; height:100%;
-      overflow: hidden;
-      z-index: 0;
-    }
-    .background video {
-      width:100%; height:100%;
-      object-fit: cover;
-    }
-    .overlay {
-      position: fixed;
-      top:0; left:0; width:100%; height:100%;
-      background: var(--overlay-gradient);
-      z-index: 1;
-    }
-    .content {
-      position: relative;
-      z-index: 2;
-      max-width: 900px;
-      width: 100%;
-      padding: 20px;
-      border-radius: 20px;
-      background: rgba(0,0,0,0.3);
-      text-align: center;
-    }
-    h1 {
-      font-size: 3.5rem;
-      font-weight: bold;
-      letter-spacing: 2px;
-      margin-bottom: 20px;
-      animation: fadeIn 2s ease-in-out;
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(-20px);}
-      to { opacity: 1; transform: translateY(0);}
-    }
-    .units {
-      display: flex;
-      justify-content: center;
-      gap: 30px;
-      margin-bottom: 30px;
-    }
-    .unit .number {
-      font-family: "Courier New", monospace;
-      font-size: 4rem;
-      font-weight: bold;
-    }
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-      gap: 20px;
-    }
-    .box {
-      background: rgba(0,0,0,0.5);
-      padding: 20px;
-      border-radius: 15px;
-      transition: transform 0.2s ease;
-      cursor: pointer;
-    }
-    .box:hover {
-      transform: translateY(-4px);
-    }
-    canvas#confetti {
+    .background-video {
       position: fixed;
       top: 0; left: 0;
       width: 100%; height: 100%;
+      object-fit: cover;
+      z-index: -2;
+    }
+    .gradient-overlay {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: linear-gradient(to bottom, rgba(0,30,80,0.7), rgba(0,30,80,0));
+      z-index: -1;
+    }
+    .band {
+      width: 100%;
+      background: rgba(0,0,0,0.7);
+      padding: 40px 20px;
+      text-align: center;
+      animation: fadeIn 2s ease forwards;
+    }
+    .band h1 {
+      font-size: 3.5rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      margin-bottom: 30px;
+    }
+    .units {
+      display: grid;
+      grid-template-columns: repeat(4, auto);
+      gap: 20px;
+      justify-content: center;
+      font-family: 'Courier New', monospace;
+    }
+    .unit {
+      aspect-ratio: 1/1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 4rem;
+    }
+    @media (max-width: 600px) {
+      .units { grid-template-columns: repeat(2, auto); }
+      .unit { font-size: 2.5rem; }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    canvas#confetti {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
       pointer-events: none;
       z-index: 10;
     }
   </style>
 </head>
 <body>
-  <div class="background">
-    <video id="bgVideo" autoplay muted loop playsinline></video>
-  </div>
-  <div class="overlay"></div>
-  <div class="content">
+  <video autoplay muted loop playsinline class="background-video">
+    <source src="https://6162417352ffd.streamlock.net/hls/platjeoost.stream/playlist.m3u8" type="application/x-mpegURL">
+  </video>
+  <div class="gradient-overlay"></div>
+
+  <div class="band">
     <h1>Kommaardoor67</h1>
     <div id="countdown" class="units">
-      <div class="unit"><div id="days" class="number">--</div></div>
-      <div class="unit"><div id="hours" class="number">--</div></div>
-      <div class="unit"><div id="minutes" class="number">--</div></div>
-      <div class="unit"><div id="seconds" class="number">--</div></div>
-    </div>
-    <div class="grid">
-      <div class="box" id="box1">Vakje 1</div>
-      <div class="box" id="box2">Vakje 2</div>
-      <div class="box">Vakje 3</div>
-      <div class="box">Vakje 4</div>
-      <div class="box">Vakje 5</div>
-      <div class="box">Vakje 6</div>
-      <div class="box">Vakje 7</div>
-      <div class="box">Vakje 8</div>
-      <div class="box">Vakje 9</div>
-      <div class="box">Vakje 10</div>
-      <div class="box">Vakje 11</div>
-      <div class="box">Vakje 12</div>
+      <div id="days" class="unit">--</div>
+      <div id="hours" class="unit">--</div>
+      <div id="minutes" class="unit">--</div>
+      <div id="seconds" class="unit">--</div>
     </div>
   </div>
+
   <canvas id="confetti"></canvas>
 
-  <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
   <script>
-    // Video achtergrond
-    const video = document.getElementById('bgVideo');
-    if (Hls.isSupported()) {
-      const hls = new Hls();
-      hls.loadSource("https://6162417352ffd.streamlock.net/hls/platjeoost.stream/playlist.m3u8?wowzatokenendtime=1757796594&wowzatokenhash=eJFFO4EENR3i9PBuoKdDV4UOJTdnW7DF4_DLXtVb89Y=&wowzatokenstarttime=1757794734");
-      hls.attachMedia(video);
-    } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-      video.src = "https://6162417352ffd.streamlock.net/hls/platjeoost.stream/playlist.m3u8?wowzatokenendtime=1757796594&wowzatokenhash=eJFFO4EENR3i9PBuoKdDV4UOJTdnW7DF4_DLXtVb89Y=&wowzatokenstarttime=1757794734";
-    }
-
-    // Confetti
+    const targetDate = new Date(2026, 8, 1, 0, 0, 0);
     const confettiCanvas = document.getElementById('confetti');
     const ctx = confettiCanvas.getContext('2d');
+
     function resizeCanvas() {
       confettiCanvas.width = window.innerWidth;
       confettiCanvas.height = window.innerHeight;
@@ -144,7 +113,11 @@
     resizeCanvas();
 
     let confettiParticles = [];
+    let confettiInterval;
+    let confettiTimeout;
+
     function createConfetti() {
+      confettiParticles = [];
       for (let i = 0; i < 200; i++) {
         confettiParticles.push({
           x: Math.random() * confettiCanvas.width,
@@ -158,6 +131,7 @@
         });
       }
     }
+
     function drawConfetti() {
       ctx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
       confettiParticles.forEach(p => {
@@ -170,6 +144,7 @@
       });
       updateConfetti();
     }
+
     function updateConfetti() {
       confettiParticles.forEach(p => {
         p.tiltAngle += p.tiltAngleIncrement;
@@ -182,17 +157,18 @@
         }
       });
     }
-    let confettiInterval;
+
     function startConfetti() {
-      confettiParticles = [];
       createConfetti();
       confettiInterval = setInterval(drawConfetti, 20);
-      setTimeout(() => clearInterval(confettiInterval), 10000); // stopt na 10s
+      confettiTimeout = setTimeout(() => {
+        clearInterval(confettiInterval);
+        ctx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
+      }, 10000);
     }
 
-    // Countdown
-    const targetDate = new Date(2026, 8, 1, 0, 0, 0);
     function pad(n) { return String(n).padStart(2, '0'); }
+
     function updateCountdown() {
       const now = new Date();
       const diff = targetDate - now;
@@ -213,14 +189,9 @@
       document.getElementById('minutes').textContent = pad(minutes);
       document.getElementById('seconds').textContent = pad(seconds);
     }
+
     updateCountdown();
     const intervalId = setInterval(updateCountdown, 1000);
-
-    // Box 2 confetti voorbeeld
-    document.getElementById('box2').addEventListener('click', () => {
-      startConfetti();
-      document.getElementById('box2').textContent = "Open cadeautje #2";
-    });
   </script>
 </body>
 </html>
