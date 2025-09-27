@@ -172,7 +172,7 @@ nee pap geen spoilers
     let confettiInterval;
     function createConfetti() {
       confettiParticles = [];
-      for (let i = 0; i < 200; i++) {
+      for (let i = 0; i < 300; i++) {
         confettiParticles.push({
           x: Math.random() * confettiCanvas.width,
           y: Math.random() * confettiCanvas.height - confettiCanvas.height,
@@ -242,7 +242,7 @@ nee pap geen spoilers
 
     // Box1: aftellen tot 22 sep 2025
     const box1 = document.getElementById('box1');
-    const gift1Date = new Date(2025, 09, 01, 0, 0, 0);
+    const gift1Date = new Date(2025, 8, 22, 0, 0, 0);
     function updateBox1() {
       const now = new Date();
       const diff = gift1Date - now;
@@ -258,28 +258,15 @@ nee pap geen spoilers
         };
       }
     }
-    }
-    updateCountdown();
-    const intervalId = setInterval(updateCountdown, 1000);
+    updateBox1();
+    setInterval(updateBox1, 1000);
 
-    // Box2: aftellen tot NOV 2025
-    const box2 = document.getElementById('box1');
-    const gift1Date = new Date(2025, 10, 01, 0, 0, 0);
-    function updateBox2() {
-      const now = new Date();
-      const diff = gift1Date - now;
-      if (diff > 0) {
-        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-        box1.textContent = days + " dagen";
-      } else {
-        box1.textContent = "Klik voor cadeau 1";
-        box1.onclick = () => {
-          startConfetti();
-          box1.textContent = "Cadeau 1";
-          box1.onclick = null;
-        };
-      }
-    };
+    // Box2 voorbeeld
+    const box2 = document.getElementById('box2');
+    box2.addEventListener('click', () => {
+      startConfetti();
+      box2.textContent = "Open cadeautje #2";
+    });
   </script>
 </body>
 </html>
