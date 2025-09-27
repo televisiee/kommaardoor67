@@ -36,8 +36,9 @@ nee pap geen spoilers
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Kommaardoor67</title>
+<title>KOMMAARDOOR 67</title>
 
+<!-- Retro pixel-font van Google Fonts -->
 <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 
 <style>
@@ -48,16 +49,100 @@ nee pap geen spoilers
   --c64-border: #80FFFF;
 }
 * { box-sizing: border-box; margin:0; padding:0; }
-html, body { height:100%; width:100%; background-color:var(--c64-bg); color:var(--c64-text); font-family:var(--c64-font); font-size:12px; overflow:hidden; display:flex; align-items:center; justify-content:center; position:relative; }
-body::before { content:""; position:absolute; inset:0; border:40px solid var(--c64-border); z-index:100; pointer-events:none; }
-body::after { content:""; position:absolute; inset:0; background:radial-gradient(circle at center, rgba(128,255,255,0.15) 0%, rgba(0,0,0,0.6) 80%); mix-blend-mode: lighten; pointer-events:none; z-index:50; transform:scale(1.05); border-radius:50% / 35%; }
-.scanlines { position:absolute; inset:0; background: repeating-linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.2) 1px, transparent 1px, transparent 3px); z-index:60; pointer-events:none; }
 
-.frame { padding:20px; max-width:900px; width:95vw; height:90vh; display:flex; align-items:center; justify-content:center; position:relative; z-index:5; overflow:hidden; }
-.content { text-align:center; z-index:2; padding:10px; width:100%; height:100%; overflow-y:auto; }
-.boot { font-size:1rem; margin-bottom:1.5rem; line-height:1.6; white-space: pre-wrap; }
-.cursor { display:inline-block; width:10px; background-color:var(--c64-text); margin-left:2px; animation: blink 0.8s steps(2,start) infinite; }
-@keyframes blink {0%,50%,100%{background-color:var(--c64-text);}25%,75%{background-color:transparent;}}
+html, body {
+  height:100%; width:100%;
+  background-color: var(--c64-bg);
+  color: var(--c64-text);
+  font-family: var(--c64-font);
+  font-size:12px;
+  overflow:hidden;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  position:relative;
+}
+
+/* Fullscreen rand */
+body::before {
+  content:"";
+  position:absolute;
+  inset:0;
+  border:40px solid var(--c64-border);
+  z-index:100;
+  pointer-events:none;
+}
+
+/* CRT bolling + glow */
+body::after {
+  content:"";
+  position:absolute;
+  inset:0;
+  background: radial-gradient(circle at center,
+    rgba(128,255,255,0.15) 0%,
+    rgba(0,0,0,0.6) 80%);
+  mix-blend-mode: lighten;
+  pointer-events:none;
+  z-index:50;
+  transform:scale(1.05);
+  border-radius:50% / 35%;
+}
+
+.scanlines {
+  position:absolute;
+  inset:0;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(0,0,0,0.2),
+    rgba(0,0,0,0.2) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+  z-index:60;
+  pointer-events:none;
+}
+
+.frame {
+  padding:20px;
+  max-width:900px;
+  width:95vw;
+  height:90vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  position:relative;
+  z-index:5;
+  overflow:hidden;
+}
+
+.content {
+  text-align:center;
+  z-index:2;
+  padding:10px;
+  width:100%;
+  height:100%;
+  overflow-y:auto;
+}
+
+.boot {
+  font-size:1rem;
+  margin-bottom:1.5rem;
+  line-height:1.6;
+  white-space: pre-wrap;
+}
+
+.cursor {
+  display:inline-block;
+  width:10px;
+  background-color:var(--c64-text);
+  margin-left:2px;
+  animation: blink 0.8s steps(2,start) infinite;
+}
+@keyframes blink {
+  0%,50%,100%{background-color:var(--c64-text);}
+  25%,75%{background-color:transparent;}
+}
+
 h1 { font-size:1.6rem; margin-bottom:1rem; }
 .units { display:flex; justify-content:center; gap:15px; margin:15px 0; flex-wrap:wrap; }
 .unit .number { font-size:1.4rem; }
@@ -67,32 +152,86 @@ h1 { font-size:1.6rem; margin-bottom:1rem; }
 .box.available { background-color: rgba(128,255,255,0.2); cursor:pointer; }
 h2 { font-size:1rem; margin-top:1rem; }
 
-/* Start knop */
-#startBtn { border: 4px solid var(--c64-border); background-color: var(--c64-bg); color: var(--c64-text); padding: 12px 20px; font-family: var(--c64-font); font-size: 1rem; cursor: pointer; margin-bottom: 20px; }
-#startBtn:hover { background-color: rgba(128,255,255,0.2); }
-
 /* Popup overlay */
-.popup-overlay { position: fixed; inset:0; background: rgba(0,0,0,0.85); display:flex; align-items:center; justify-content:center; z-index:2000; opacity:0; pointer-events:none; transition: opacity 0.4s ease-in-out; }
-.popup-overlay.active { opacity:1; pointer-events:auto; animation: flicker 0.15s steps(2,end) 3; }
-.popup-box { background: var(--c64-bg); border:6px solid var(--c64-border); padding:20px; max-width:500px; width:80%; text-align:center; color: var(--c64-text); font-family: var(--c64-font); font-size:0.9rem; line-height:1.6; position:relative; z-index:2100; animation: glitch 1s infinite; }
-.popup-close { position:absolute; top:5px; right:10px; cursor:pointer; color: var(--c64-text); font-size:0.8rem; text-transform:uppercase; }
+.popup-overlay {
+  position: fixed;
+  inset:0;
+  background: rgba(0,0,0,0.85);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  z-index:2000;
+  opacity:0;
+  pointer-events:none;
+  transition: opacity 0.4s ease-in-out;
+}
+.popup-overlay.active {
+  opacity:1;
+  pointer-events:auto;
+  animation: flicker 0.15s steps(2,end) 3;
+}
+.popup-box {
+  background: var(--c64-bg);
+  border:6px solid var(--c64-border);
+  padding:20px;
+  max-width:500px;
+  width:80%;
+  text-align:center;
+  color: var(--c64-text);
+  font-family: var(--c64-font);
+  font-size:0.9rem;
+  line-height:1.6;
+  position:relative;
+  z-index:2100;
+  animation: glitch 1s infinite;
+}
+.popup-close {
+  position:absolute;
+  top:5px; right:10px;
+  cursor:pointer;
+  color: var(--c64-text);
+  font-size:0.8rem;
+  text-transform:uppercase;
+}
 
-@keyframes flicker {0%,100%{opacity:1}50%{opacity:0}}
-@keyframes glitch {0%{text-shadow:1px 0 red,-1px 0 cyan;}20%{text-shadow:-2px 0 red,2px 0 cyan;}40%{text-shadow:1px 0 red,-1px 0 cyan;}60%{text-shadow:-1px 0 red,1px 0 cyan;}80%{text-shadow:2px 0 red,-2px 0 cyan;}100%{text-shadow:1px 0 red,-1px 0 cyan;}}
+@keyframes flicker { 0%,100%{opacity:1}50%{opacity:0} }
+@keyframes glitch {
+  0%{text-shadow:1px 0 red,-1px 0 cyan;}
+  20%{text-shadow:-2px 0 red,2px 0 cyan;}
+  40%{text-shadow:1px 0 red,-1px 0 cyan;}
+  60%{text-shadow:-1px 0 red,1px 0 cyan;}
+  80%{text-shadow:2px 0 red,-2px 0 cyan;}
+  100%{text-shadow:1px 0 red,-1px 0 cyan;}
+}
 .typewriter { display:inline-block; border-right:2px solid var(--c64-text); white-space:pre-wrap; overflow:hidden; }
 
 /* Media queries mobiel */
-@media (max-width:768px){ html, body { font-size:14px; } body::before{border:20px solid var(--c64-border);} h1{font-size:1.2rem;} .unit .number{font-size:1.2rem;} .box{font-size:0.8rem; padding:10px;} }
-@media (max-width:480px){ html, body{font-size:16px;} .frame{padding:10px;} .boot{font-size:0.9rem;} h1{font-size:1rem;} .unit .number{font-size:1rem;} .grid{grid-template-columns:repeat(2,1fr);} .box{padding:15px;font-size:0.9rem;} .popup-box{width:95%; font-size:0.9rem;} }
+@media (max-width:768px){
+  html, body { font-size:14px; }
+  body::before { border:20px solid var(--c64-border); }
+  h1 { font-size:1.2rem; }
+  .unit .number { font-size:1.2rem; }
+  .box { font-size:0.8rem; padding:10px; }
+}
+@media (max-width:480px){
+  html, body { font-size:16px; }
+  .frame { padding:10px; }
+  .boot { font-size:0.9rem; }
+  h1 { font-size:1rem; }
+  .unit .number { font-size:1rem; }
+  .grid { grid-template-columns:repeat(2,1fr); }
+  .box { padding:15px; font-size:0.9rem; }
+  .popup-box { width:95%; font-size:0.9rem; }
+}
+
 </style>
 </head>
 <body>
-
 <div class="frame">
   <div class="content">
-    <button id="startBtn">Start Boot</button>
     <pre class="boot" id="boot"><span id="boot-text"></span><span class="cursor"></span></pre>
-    <h1>KOMMAARDOOR 67</h1>
+   <script>
+    const bootText = `"<h1>KOMMAARDOOR 67</h1>"
 
     <div id="countdown" class="units">
       <div class="unit"><div id="days" class="number">--</div></div>
@@ -120,6 +259,7 @@ h2 { font-size:1rem; margin-top:1rem; }
 
 <div class="scanlines"></div>
 
+<!-- Popup overlay -->
 <div id="popup" class="popup-overlay">
   <div class="popup-box">
     <div class="popup-close" onclick="closePopup()">[X]</div>
@@ -128,40 +268,37 @@ h2 { font-size:1rem; margin-top:1rem; }
 </div>
 
 <!-- Geluiden -->
-<audio id="beep-sound" preload="auto" src="https://www.soundjay.com/button/beep-07.mp3"></audio>
-<audio id="gift-sound" preload="auto" src="https://www.soundjay.com/button/button-3.mp3"></audio>
-<audio id="countdown-done-sound" preload="auto" src="https://www.soundjay.com/misc/success-fanfare-trumpets-01.mp3"></audio>
+<audio id="beep-sound" src="https://www.soundjay.com/button/beep-07.wav"></audio>
+<audio id="gift-sound" src="https://www.soundjay.com/button/button-3.wav"></audio>
+<audio id="countdown-done-sound" src="https://www.soundjay.com/misc/success-fanfare-trumpets-01.mp3"></audio>
 
 <script>
-// Boot-up animatie + geluid
-const bootText = `**** KOMMAARDOOR 67 BASIC V2 ****\n64K RAM SYSTEM  38911 BASIC BYTES FREE\nREADY.`;
+// Boot-up animatie
+const bootText = `**** KOMMAARDOOR 67 BASIC V2 ****  
+64K RAM SYSTEM  38911 BASIC BYTES FREE  
+READY.`;
 const bootElement = document.getElementById("boot-text");
 const bootSound = document.getElementById("beep-sound");
-const startBtn = document.getElementById("startBtn");
 
-startBtn.addEventListener("click", () => {
-  startBtn.style.display="none";
-  bootSound.play().catch(()=>{}); // audio-unlock
-  bootWriter(bootText,0);
-});
-
-function bootWriter(text,i){
+function bootWriter(text, i){
   if(i<text.length){
     bootElement.textContent+=text.charAt(i);
-    if(text.charAt(i)!=" " && i%2===0) bootSound.currentTime=0, bootSound.play().catch(()=>{});
+    if(text.charAt(i)!=" " && i%2===0) bootSound.play();
     setTimeout(()=>bootWriter(text,i+1),40);
   }
 }
+bootWriter(bootText,0);
 
 // Countdown
-const targetDate=new Date(2026,8,22,0,0,0);
+const targetDate = new Date(2026,8,22,0,0,0);
 function pad(n){return String(n).padStart(2,'0');}
+
 function updateCountdown(){
   const now=new Date();
   const diff=targetDate-now;
   if(diff<=0){
     document.getElementById('countdown').innerHTML="<h2>🎉 Pensioen bereikt!</h2>";
-    document.getElementById("countdown-done-sound").play().catch(()=>{});
+    document.getElementById("countdown-done-sound").play();
     clearInterval(intervalId);
     return;
   }
@@ -178,9 +315,14 @@ function updateCountdown(){
 updateCountdown();
 const intervalId=setInterval(updateCountdown,1000);
 
-// Cadeau dozen
-const giftDates=[new Date(2025,8,22),new Date(2025,9,1),new Date(2025,10,1),new Date(2025,11,1),new Date(2026,0,1),new Date(2026,1,1),new Date(2026,2,1),new Date(2026,3,1),new Date(2026,4,1),new Date(2026,5,1),new Date(2026,6,1),new Date(2026,7,1)];
-const giftSound=document.getElementById("gift-sound");
+// Cadeaudozen
+const giftDates=[
+  new Date(2025,8,22),new Date(2025,9,1),new Date(2025,10,1),
+  new Date(2025,11,1),new Date(2026,0,1),new Date(2026,1,1),
+  new Date(2026,2,1),new Date(2026,3,1),new Date(2026,4,1),
+  new Date(2026,5,1),new Date(2026,6,1),new Date(2026,7,1)
+];
+const giftSound = document.getElementById("gift-sound");
 
 giftDates.forEach((date,i)=>{
   const box=document.getElementById(`box${i+1}`);
@@ -194,8 +336,7 @@ giftDates.forEach((date,i)=>{
       box.textContent="Klik voor cadeau "+(i+1);
       box.classList.add("available");
       box.onclick=()=>{
-        giftSound.currentTime=0;
-        giftSound.play().catch(()=>{});
+        giftSound.play();
         if(i===0){
           openPopup("Henry geeft je eerste cadeautje voor dit feest daar waar je ook de handleiding leest.");
         } else {
@@ -210,7 +351,7 @@ giftDates.forEach((date,i)=>{
   setInterval(updateBox,60000);
 });
 
-// Popup
+// Popup functies
 function openPopup(text){
   const popup=document.getElementById("popup");
   const content=document.getElementById("popup-content");
