@@ -36,12 +36,12 @@
       position: relative;
     }
 
-    /* Fullscreen rand */
+    /* Fullscreen rand (nu breder gemaakt) */
     body::before {
       content: "";
       position: absolute;
       inset: 0;
-      border: 12px solid var(--c64-border); /* dikke lichtblauwe lijn */
+      border: 40px solid var(--c64-border); /* dikke lichtblauwe lijn */
       z-index: 100;
       pointer-events: none;
     }
@@ -102,9 +102,10 @@
       font-family: var(--c64-font);
       color: var(--c64-text);
       text-align: left;
-      white-space: pre;
+      white-space: pre-wrap;
       margin-bottom: 2rem;
       line-height: 1.8;
+      min-height: 6rem; /* ruimte vrijhouden */
     }
 
     h1 {
@@ -155,17 +156,6 @@
     h2 {
       font-size: 1rem;
       margin-top: 1rem;
-    }
-
-    /* Scrollbar retro maken */
-    ::-webkit-scrollbar {
-      width: 8px;
-    }
-    ::-webkit-scrollbar-thumb {
-      background: var(--c64-text);
-    }
-    ::-webkit-scrollbar-track {
-      background: var(--c64-bg);
     }
 
     /* === Popup overlay === */
@@ -242,11 +232,7 @@
 <body>
   <div class="frame">
     <div class="content">
-      <pre class="boot">
-**** COMMODORE 64 BASIC V2 ****  
-64K RAM SYSTEM  38911 BASIC BYTES FREE  
-READY.
-</pre>
+      <pre id="boot" class="boot"></pre>
 
       <h1>Kommaardoor67</h1>
 
@@ -285,6 +271,20 @@ READY.
   </div>
 
   <script>
+    // Boot-up animatie
+    const bootText = `**** COMMODORE 64 BASIC V2 ****  
+64K RAM SYSTEM  38911 BASIC BYTES FREE  
+READY.`;
+    const bootElement = document.getElementById("boot");
+
+    function bootWriter(text, i) {
+      if (i < text.length) {
+        bootElement.textContent += text.charAt(i);
+        setTimeout(() => bootWriter(text, i + 1), 40);
+      }
+    }
+    bootWriter(bootText, 0);
+
     // Countdown hoofddatum
     const targetDate = new Date(2026, 8, 22, 0, 0, 0);
 
