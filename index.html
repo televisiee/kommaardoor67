@@ -34,43 +34,39 @@
       justify-content: center;
     }
 
-    /* CRT-effect */
-    body::after {
-      content: "";
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      background: repeating-linear-gradient(
-        to bottom,
-        rgba(0, 0, 0, 0.15),
-        rgba(0, 0, 0, 0.15) 1px,
-        transparent 1px,
-        transparent 3px
-      );
-      z-index: 1000;
+    /* CRT-effect met bolling */
+    body {
+      position: relative;
+      overflow: hidden;
     }
 
     body::before {
       content: "";
-      position: fixed;
+      position: absolute;
       inset: 0;
-      background: radial-gradient(circle, rgba(128,255,255,0.1) 0%, rgba(0,0,0,0.6) 90%);
-      pointer-events: none;
-      z-index: 999;
+      background: radial-gradient(circle at center,
+        rgba(128, 255, 255, 0.15) 0%,
+        rgba(0, 0, 0, 0.6) 80%);
       mix-blend-mode: lighten;
-      animation: flicker 0.15s infinite;
+      pointer-events: none;
+      z-index: 20;
+      transform: scale(1.05);
+      border-radius: 50% / 35%; /* bolling */
     }
 
-    @keyframes flicker {
-      0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
-        opacity: 1;
-      }
-      20%, 24%, 55% {
-        opacity: 0.8;
-      }
+    body::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 0.2),
+        rgba(0, 0, 0, 0.2) 1px,
+        transparent 1px,
+        transparent 3px
+      );
+      pointer-events: none;
+      z-index: 25;
     }
 
     .frame {
@@ -82,11 +78,14 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      position: relative;
+      z-index: 5;
+      overflow: hidden;
     }
 
     .content {
       text-align: center;
-      z-index: 2;
+      z-index: 10;
       padding: 10px;
       width: 100%;
       height: 100%;
@@ -100,6 +99,7 @@
       text-align: left;
       white-space: pre-wrap;
       line-height: 1.8;
+      z-index: 10;
     }
 
     h1 {
@@ -152,15 +152,41 @@
       margin-top: 1rem;
     }
 
-    /* Retro scrollbar */
-    ::-webkit-scrollbar {
-      width: 8px;
+    /* Popup overlay */
+    .overlay {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,170,0.95);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      border: 8px solid var(--c64-border);
+      z-index: 2000;
+      font-family: var(--c64-font);
+      color: var(--c64-text);
+      text-align: center;
+      display: none;
     }
-    ::-webkit-scrollbar-thumb {
-      background: var(--c64-text);
+
+    .overlay h2 {
+      font-size: 1rem;
+      margin-bottom: 1rem;
     }
-    ::-webkit-scrollbar-track {
-      background: var(--c64-bg);
+
+    .overlay button {
+      background: transparent;
+      border: 1px solid var(--c64-text);
+      color: var(--c64-text);
+      font-family: var(--c64-font);
+      padding: 8px 16px;
+      cursor: pointer;
+      margin-top: 1rem;
+    }
+
+    .overlay button:hover {
+      background: rgba(128,255,255,0.2);
     }
   </style>
 </head>
@@ -194,6 +220,12 @@
     </div>
   </div>
 
+  <!-- Popup overlay -->
+  <div class="overlay" id="overlay">
+    <h2 id="overlay-text">🎁 Cadeau geopend!</h2>
+    <button onclick="closeOverlay()">SLUITEN</button>
+  </div>
+
   <script>
     // Boot-up tekst simulatie
     const bootLines = [
@@ -212,15 +244,14 @@
         if (char < bootLines[line].length) {
           bootEl.textContent += bootLines[line][char];
           char++;
-          setTimeout(typeLine, 40); // snelheid per char
+          setTimeout(typeLine, 40);
         } else {
           bootEl.textContent += "\n";
           line++;
           char = 0;
-          setTimeout(typeLine, 300); // pauze tussen regels
+          setTimeout(typeLine, 300);
         }
       } else {
-        // na boot-up content tonen
         setTimeout(() => {
           bootEl.style.display = "none";
           contentEl.style.display = "block";
@@ -230,7 +261,7 @@
     typeLine();
 
     // Countdown hoofddatum
-    const targetDate = new Date(2026, 8, 22, 0, 0, 0); // 22 september 2026
+    const targetDate = new Date(2026, 8, 22, 0, 0, 0);
 
     function pad(n) {
       return String(n).padStart(2, '0');
@@ -261,7 +292,17 @@
     const intervalId = setInterval(updateCountdown, 1000);
     updateCountdown();
 
-    // Cadeaudozen (22e van elke maand vanaf sep 2025 tot aug 2026)
+    // Overlay functies
+    function openOverlay(text) {
+      document.getElementById("overlay-text").textContent = text;
+      document.getElementById("overlay").style.display = "flex";
+    }
+
+    function closeOverlay() {
+      document.getElementById("overlay").style.display = "none";
+    }
+
+    // Cadeaudozen
     const giftDates = [
       new Date(2025, 8, 22),  // SEP
       new Date(2025, 9, 22),  // OKT
@@ -291,7 +332,7 @@
           box.textContent = "Klik voor cadeau " + (i+1);
           box.classList.add("available");
           box.onclick = () => {
-            alert("🎁 Cadeau " + (i+1) + " geopend!");
+            openOverlay("🎁 Cadeau " + (i+1) + " geopend!");
             box.textContent = "🎁 Cadeau " + (i+1);
             box.onclick = null;
           };
