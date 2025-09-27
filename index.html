@@ -1,3 +1,36 @@
+
+######################
+######################
+######################
+######################
+######################
+######################
+######################
+######################
+######################
+######################
+######################
+######################
+######################
+
+
+nee pap geen spoilers 
+
+
+######################
+######################
+######################
+######################
+######################
+######################
+######################
+######################
+######################
+######################
+######################
+######################
+
+
 <!doctype html>
 <html lang="nl">
 <head>
@@ -16,11 +49,7 @@
       --c64-border: #80FFFF;
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
     html, body {
       height: 100%;
@@ -28,7 +57,7 @@
       background-color: var(--c64-bg);
       color: var(--c64-text);
       font-family: var(--c64-font);
-      font-size: 12px; /* basis iets groter */
+      font-size: 12px;
       overflow: hidden;
       display: flex;
       align-items: center;
@@ -104,58 +133,34 @@
       white-space: pre-wrap;
     }
 
-    h1 {
-      font-size: 1.6rem;
-      margin-bottom: 1rem;
+    /* Knipperende cursor */
+    .cursor {
+      display: inline-block;
+      width: 10px;
+      background-color: var(--c64-text);
+      margin-left: 2px;
+      animation: blink 0.8s steps(2, start) infinite;
     }
 
-    .units {
-      display: flex;
-      justify-content: center;
-      gap: 15px;
-      margin: 15px 0;
-      flex-wrap: wrap;
+    @keyframes blink {
+      0%,50%,100% { background-color: var(--c64-text); }
+      25%,75% { background-color: transparent; }
     }
 
-    .unit .number {
-      font-size: 1.4rem;
-    }
+    h1 { font-size: 1.6rem; margin-bottom: 1rem; }
+    .units { display: flex; justify-content: center; gap: 15px; margin: 15px 0; flex-wrap: wrap; }
+    .unit .number { font-size: 1.4rem; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(90px, 1fr)); gap: 8px; margin: 0 auto; }
+    .box { border: 1px solid var(--c64-text); padding: 12px; font-size: 0.9rem; cursor: default; text-align: center; transition: background 0.3s; }
+    .box:hover { background-color: rgba(255,255,255,0.1); }
+    .box.available { background-color: rgba(128,255,255,0.2); cursor: pointer; }
+    h2 { font-size: 1rem; margin-top: 1rem; }
 
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
-      gap: 8px;
-      margin: 0 auto;
-    }
-
-    .box {
-      border: 1px solid var(--c64-text);
-      padding: 12px;
-      font-size: 0.9rem;
-      cursor: default;
-      text-align: center;
-      transition: background 0.3s;
-    }
-
-    .box:hover {
-      background-color: rgba(255, 255, 255, 0.1);
-    }
-
-    .box.available {
-      background-color: rgba(128, 255, 255, 0.2);
-      cursor: pointer;
-    }
-
-    h2 {
-      font-size: 1rem;
-      margin-top: 1rem;
-    }
-
-    /* === Popup overlay === */
+    /* Popup overlay */
     .popup-overlay {
       position: fixed;
       inset: 0;
-      background: rgba(0, 0, 0, 0.85);
+      background: rgba(0,0,0,0.85);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -164,13 +169,11 @@
       pointer-events: none;
       transition: opacity 0.4s ease-in-out;
     }
-
     .popup-overlay.active {
       opacity: 1;
       pointer-events: auto;
-      animation: flicker 0.15s steps(2, end) 3;
+      animation: flicker 0.15s steps(2,end) 3;
     }
-
     .popup-box {
       background: var(--c64-bg);
       border: 6px solid var(--c64-border);
@@ -186,7 +189,6 @@
       z-index: 2100;
       animation: glitch 1s infinite;
     }
-
     .popup-close {
       position: absolute;
       top: 5px;
@@ -197,82 +199,41 @@
       text-transform: uppercase;
     }
 
-    @keyframes flicker {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0; }
-    }
-
+    @keyframes flicker { 0%,100%{opacity:1}50%{opacity:0} }
     @keyframes glitch {
-      0% { text-shadow: 1px 0 red, -1px 0 cyan; }
-      20% { text-shadow: -2px 0 red, 2px 0 cyan; }
-      40% { text-shadow: 1px 0 red, -1px 0 cyan; }
-      60% { text-shadow: -1px 0 red, 1px 0 cyan; }
-      80% { text-shadow: 2px 0 red, -2px 0 cyan; }
-      100% { text-shadow: 1px 0 red, -1px 0 cyan; }
+      0%{text-shadow:1px 0 red,-1px 0 cyan;}
+      20%{text-shadow:-2px 0 red,2px 0 cyan;}
+      40%{text-shadow:1px 0 red,-1px 0 cyan;}
+      60%{text-shadow:-1px 0 red,1px 0 cyan;}
+      80%{text-shadow:2px 0 red,-2px 0 cyan;}
+      100%{text-shadow:1px 0 red,-1px 0 cyan;}
     }
+    .typewriter { display: inline-block; border-right: 2px solid var(--c64-text); white-space: pre-wrap; overflow: hidden; }
 
-    .typewriter {
-      display: inline-block;
-      border-right: 2px solid var(--c64-text);
-      white-space: pre-wrap;
-      overflow: hidden;
-    }
-
-    /* === MEDIA QUERIES === */
+    /* Media queries voor mobiel */
     @media (max-width: 768px) {
-      html, body {
-        font-size: 14px;
-      }
-      body::before {
-        border: 20px solid var(--c64-border); /* dunnere rand */
-      }
-      h1 {
-        font-size: 1.2rem;
-      }
-      .unit .number {
-        font-size: 1.2rem;
-      }
-      .box {
-        font-size: 0.8rem;
-        padding: 10px;
-      }
+      html, body { font-size: 14px; }
+      body::before { border: 20px solid var(--c64-border); }
+      h1 { font-size: 1.2rem; }
+      .unit .number { font-size: 1.2rem; }
+      .box { font-size: 0.8rem; padding: 10px; }
     }
-
     @media (max-width: 480px) {
-      html, body {
-        font-size: 16px; /* beter leesbaar */
-      }
-      .frame {
-        padding: 10px;
-      }
-      .boot {
-        font-size: 0.9rem;
-      }
-      h1 {
-        font-size: 1rem;
-      }
-      .unit .number {
-        font-size: 1rem;
-      }
-      .grid {
-        grid-template-columns: repeat(2, 1fr); /* dikke vingers */
-      }
-      .box {
-        padding: 15px;
-        font-size: 0.9rem;
-      }
-      .popup-box {
-        width: 95%;
-        font-size: 0.9rem;
-      }
+      html, body { font-size: 16px; }
+      .frame { padding: 10px; }
+      .boot { font-size: 0.9rem; }
+      h1 { font-size: 1rem; }
+      .unit .number { font-size: 1rem; }
+      .grid { grid-template-columns: repeat(2,1fr); }
+      .box { padding: 15px; font-size: 0.9rem; }
+      .popup-box { width: 95%; font-size: 0.9rem; }
     }
   </style>
 </head>
 <body>
   <div class="frame">
     <div class="content">
-      <pre id="boot" class="boot"></pre>
-
+      <pre class="boot" id="boot"><span id="boot-text"></span><span class="cursor"></span></pre>
       <h1>Kommaardoor67</h1>
 
       <div id="countdown" class="units">
@@ -314,109 +275,77 @@
     const bootText = `**** COMMODORE 64 BASIC V2 ****  
 64K RAM SYSTEM  38911 BASIC BYTES FREE  
 READY.`;
-    const bootElement = document.getElementById("boot");
+    const bootElement = document.getElementById("boot-text");
 
     function bootWriter(text, i) {
-      if (i < text.length) {
+      if(i < text.length){
         bootElement.textContent += text.charAt(i);
-        setTimeout(() => bootWriter(text, i + 1), 40);
+        setTimeout(() => bootWriter(text, i+1), 40);
       }
     }
     bootWriter(bootText, 0);
 
-    // Countdown hoofddatum
-    const targetDate = new Date(2026, 8, 22, 0, 0, 0);
+    // Countdown
+    const targetDate = new Date(2026,8,22,0,0,0);
+    function pad(n){return String(n).padStart(2,'0');}
 
-    function pad(n) {
-      return String(n).padStart(2, '0');
-    }
-
-    function updateCountdown() {
-      const now = new Date();
-      const diff = targetDate - now;
-
-      if (diff <= 0) {
-        document.getElementById('countdown').innerHTML = "<h2>🎉 Pensioen bereikt!</h2>";
+    function updateCountdown(){
+      const now=new Date();
+      const diff=targetDate-now;
+      if(diff<=0){
+        document.getElementById('countdown').innerHTML="<h2>🎉 Pensioen bereikt!</h2>";
         clearInterval(intervalId);
         return;
       }
-
-      const secondsTotal = Math.floor(diff / 1000);
-      const days = Math.floor(secondsTotal / (24 * 3600));
-      const hours = Math.floor((secondsTotal % (24 * 3600)) / 3600);
-      const minutes = Math.floor((secondsTotal % 3600) / 60);
-      const seconds = secondsTotal % 60;
-
-      document.getElementById('days').textContent = days;
-      document.getElementById('hours').textContent = pad(hours);
-      document.getElementById('minutes').textContent = pad(minutes);
-      document.getElementById('seconds').textContent = pad(seconds);
+      const s=Math.floor(diff/1000);
+      const days=Math.floor(s/(24*3600));
+      const hours=Math.floor((s%(24*3600))/3600);
+      const minutes=Math.floor((s%3600)/60);
+      const seconds=s%60;
+      document.getElementById('days').textContent=days;
+      document.getElementById('hours').textContent=pad(hours);
+      document.getElementById('minutes').textContent=pad(minutes);
+      document.getElementById('seconds').textContent=pad(seconds);
     }
-
     updateCountdown();
-    const intervalId = setInterval(updateCountdown, 1000);
+    const intervalId=setInterval(updateCountdown,1000);
 
     // Cadeaudozen
-    const giftDates = [
-      new Date(2025, 8, 22),
-      new Date(2025, 9, 1),
-      new Date(2025, 10, 1),
-      new Date(2025, 11, 1),
-      new Date(2026, 0, 1),
-      new Date(2026, 1, 1),
-      new Date(2026, 2, 1),
-      new Date(2026, 3, 1),
-      new Date(2026, 4, 1),
-      new Date(2026, 5, 1),
-      new Date(2026, 6, 1),
-      new Date(2026, 7, 1),
-    ];
+    const giftDates=[new Date(2025,8,22),new Date(2025,9,1),new Date(2025,10,1),
+                     new Date(2025,11,1),new Date(2026,0,1),new Date(2026,1,1),
+                     new Date(2026,2,1),new Date(2026,3,1),new Date(2026,4,1),
+                     new Date(2026,5,1),new Date(2026,6,1),new Date(2026,7,1)];
 
-    giftDates.forEach((date, i) => {
-      const box = document.getElementById(`box${i+1}`);
-
-      function updateBox() {
-        const now = new Date();
-        const diff = date - now;
-
-        if (diff > 0) {
-          const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-          box.textContent = days + " dagen";
-        } else {
-          box.textContent = "Klik voor cadeau " + (i+1);
+    giftDates.forEach((date,i)=>{
+      const box=document.getElementById(`box${i+1}`);
+      function updateBox(){
+        const now=new Date();
+        const diff=date-now;
+        if(diff>0){
+          const days=Math.floor(diff/(1000*60*60*24));
+          box.textContent=days+" dagen";
+        }else{
+          box.textContent="Klik voor cadeau "+(i+1);
           box.classList.add("available");
-          box.onclick = () => {
-            openPopup("🎁 Cadeau " + (i+1) + " <br> "Henry geeft je eerste cadeautje voor dit feest daar waar je ook de handleiding leest.");
-            box.textContent = "🎁 Cadeau " + (i+1);
-            box.onclick = null;
-          };
+          box.onclick=()=>{ openPopup("🎁 Cadeau "+(i+1)+" geopend!"); box.textContent="🎁 Cadeau "+(i+1); box.onclick=null; };
         }
       }
-
       updateBox();
-      setInterval(updateBox, 60000);
+      setInterval(updateBox,60000);
     });
 
     // Popup functies
-    function openPopup(text) {
-      const popup = document.getElementById("popup");
-      const content = document.getElementById("popup-content");
-      content.innerHTML = ""; // leegmaken
+    function openPopup(text){
+      const popup=document.getElementById("popup");
+      const content=document.getElementById("popup-content");
+      content.innerHTML="";
       popup.classList.add("active");
-      typeWriter(content, text, 0);
+      typeWriter(content,text,0);
     }
+    function closePopup(){document.getElementById("popup").classList.remove("active");}
 
-    function closePopup() {
-      document.getElementById("popup").classList.remove("active");
-    }
-
-    // Typewriter effect
-    function typeWriter(element, text, i) {
-      if (i < text.length) {
-        element.innerHTML += text.charAt(i);
-        setTimeout(() => typeWriter(element, text, i + 1), 50);
-      }
-    }
+    // Typewriter
+    function typeWriter(el,text,i){if(i<text.length){el.innerHTML+=text.charAt(i);setTimeout(()=>typeWriter(el,text,i+1),50);}}
   </script>
 </body>
 </html>
