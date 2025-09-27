@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Kommaardoor67</title>
 
-  <!-- Retro pixel-font -->
+  <!-- Retro pixel-font van Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 
   <style>
@@ -24,6 +24,7 @@
 
     html, body {
       height: 100%;
+      width: 100%;
       background-color: var(--c64-bg);
       color: var(--c64-text);
       font-family: var(--c64-font);
@@ -32,15 +33,21 @@
       display: flex;
       align-items: center;
       justify-content: center;
-    }
-
-    /* CRT-effect met bolling */
-    body {
       position: relative;
-      overflow: hidden;
     }
 
+    /* Fullscreen rand */
     body::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border: 12px solid var(--c64-border); /* dikke lichtblauwe lijn */
+      z-index: 100;
+      pointer-events: none;
+    }
+
+    /* CRT bolling + glow */
+    body::after {
       content: "";
       position: absolute;
       inset: 0;
@@ -49,13 +56,13 @@
         rgba(0, 0, 0, 0.6) 80%);
       mix-blend-mode: lighten;
       pointer-events: none;
-      z-index: 20;
+      z-index: 50;
       transform: scale(1.05);
       border-radius: 50% / 35%; /* bolling */
     }
 
-    body::after {
-      content: "";
+    /* Scanlines */
+    .scanlines {
       position: absolute;
       inset: 0;
       background: repeating-linear-gradient(
@@ -65,12 +72,11 @@
         transparent 1px,
         transparent 3px
       );
+      z-index: 60;
       pointer-events: none;
-      z-index: 25;
     }
 
     .frame {
-      border: 8px solid var(--c64-border);
       padding: 30px;
       max-width: 900px;
       width: 95vw;
@@ -85,21 +91,20 @@
 
     .content {
       text-align: center;
-      z-index: 10;
+      z-index: 2;
       padding: 10px;
       width: 100%;
       height: 100%;
       overflow-y: auto;
-      display: none; /* pas zichtbaar na boot */
     }
 
     .boot {
       font-family: var(--c64-font);
       color: var(--c64-text);
       text-align: left;
-      white-space: pre-wrap;
+      white-space: pre;
+      margin-bottom: 2rem;
       line-height: 1.8;
-      z-index: 10;
     }
 
     h1 {
@@ -152,48 +157,97 @@
       margin-top: 1rem;
     }
 
-    /* Popup overlay */
-    .overlay {
+    /* Scrollbar retro maken */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: var(--c64-text);
+    }
+    ::-webkit-scrollbar-track {
+      background: var(--c64-bg);
+    }
+
+    /* === Popup overlay === */
+    .popup-overlay {
       position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: rgba(0,0,170,0.95);
+      inset: 0;
+      background: rgba(0, 0, 0, 0.85);
       display: flex;
       align-items: center;
       justify-content: center;
-      flex-direction: column;
-      border: 8px solid var(--c64-border);
       z-index: 2000;
-      font-family: var(--c64-font);
-      color: var(--c64-text);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.4s ease-in-out;
+    }
+
+    .popup-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+      animation: flicker 0.15s steps(2, end) 3;
+    }
+
+    .popup-box {
+      background: var(--c64-bg);
+      border: 6px solid var(--c64-border);
+      padding: 20px;
+      max-width: 500px;
+      width: 80%;
       text-align: center;
-      display: none;
-    }
-
-    .overlay h2 {
-      font-size: 1rem;
-      margin-bottom: 1rem;
-    }
-
-    .overlay button {
-      background: transparent;
-      border: 1px solid var(--c64-text);
       color: var(--c64-text);
       font-family: var(--c64-font);
-      padding: 8px 16px;
-      cursor: pointer;
-      margin-top: 1rem;
+      font-size: 0.9rem;
+      line-height: 1.6;
+      position: relative;
+      z-index: 2100;
+      animation: glitch 1s infinite;
     }
 
-    .overlay button:hover {
-      background: rgba(128,255,255,0.2);
+    .popup-close {
+      position: absolute;
+      top: 5px;
+      right: 10px;
+      cursor: pointer;
+      color: var(--c64-text);
+      font-size: 0.8rem;
+      text-transform: uppercase;
+    }
+
+    /* Flicker effect */
+    @keyframes flicker {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+
+    /* Glitch lichte scanlines */
+    @keyframes glitch {
+      0% { text-shadow: 1px 0 red, -1px 0 cyan; }
+      20% { text-shadow: -2px 0 red, 2px 0 cyan; }
+      40% { text-shadow: 1px 0 red, -1px 0 cyan; }
+      60% { text-shadow: -1px 0 red, 1px 0 cyan; }
+      80% { text-shadow: 2px 0 red, -2px 0 cyan; }
+      100% { text-shadow: 1px 0 red, -1px 0 cyan; }
+    }
+
+    /* Typewriter effect */
+    .typewriter {
+      display: inline-block;
+      border-right: 2px solid var(--c64-text);
+      white-space: pre-wrap;
+      overflow: hidden;
     }
   </style>
 </head>
 <body>
   <div class="frame">
-    <div class="boot" id="boot"></div>
-    <div class="content" id="content">
+    <div class="content">
+      <pre class="boot">
+**** COMMODORE 64 BASIC V2 ****  
+64K RAM SYSTEM  38911 BASIC BYTES FREE  
+READY.
+</pre>
+
       <h1>Kommaardoor67</h1>
 
       <div id="countdown" class="units">
@@ -204,62 +258,33 @@
       </div>
 
       <div class="grid">
-        <div class="box" id="box1">SEP</div>
-        <div class="box" id="box2">OKT</div>
-        <div class="box" id="box3">NOV</div>
-        <div class="box" id="box4">DEC</div>
-        <div class="box" id="box5">JAN</div>
-        <div class="box" id="box6">FEB</div>
-        <div class="box" id="box7">MAR</div>
-        <div class="box" id="box8">APR</div>
-        <div class="box" id="box9">MEI</div>
-        <div class="box" id="box10">JUN</div>
-        <div class="box" id="box11">JUL</div>
-        <div class="box" id="box12">AUG</div>
+        <div class="box" id="box1">OKT</div>
+        <div class="box" id="box2">NOV</div>
+        <div class="box" id="box3">DEC</div>
+        <div class="box" id="box4">JAN</div>
+        <div class="box" id="box5">FEB</div>
+        <div class="box" id="box6">MAR</div>
+        <div class="box" id="box7">APR</div>
+        <div class="box" id="box8">MEI</div>
+        <div class="box" id="box9">JUN</div>
+        <div class="box" id="box10">JUL</div>
+        <div class="box" id="box11">AUG</div>
+        <div class="box" id="box12">SEP</div>
       </div>
     </div>
   </div>
 
+  <div class="scanlines"></div>
+
   <!-- Popup overlay -->
-  <div class="overlay" id="overlay">
-    <h2 id="overlay-text">🎁 Cadeau geopend!</h2>
-    <button onclick="closeOverlay()">SLUITEN</button>
+  <div id="popup" class="popup-overlay">
+    <div class="popup-box">
+      <div class="popup-close" onclick="closePopup()">[X]</div>
+      <div id="popup-content" class="typewriter"></div>
+    </div>
   </div>
 
   <script>
-    // Boot-up tekst simulatie
-    const bootLines = [
-      "**** COMMODORE 64 BASIC V2 ****",
-      "64K RAM SYSTEM  38911 BASIC BYTES FREE",
-      "READY."
-    ];
-    const bootEl = document.getElementById("boot");
-    const contentEl = document.getElementById("content");
-
-    let line = 0;
-    let char = 0;
-
-    function typeLine() {
-      if (line < bootLines.length) {
-        if (char < bootLines[line].length) {
-          bootEl.textContent += bootLines[line][char];
-          char++;
-          setTimeout(typeLine, 40);
-        } else {
-          bootEl.textContent += "\n";
-          line++;
-          char = 0;
-          setTimeout(typeLine, 300);
-        }
-      } else {
-        setTimeout(() => {
-          bootEl.style.display = "none";
-          contentEl.style.display = "block";
-        }, 800);
-      }
-    }
-    typeLine();
-
     // Countdown hoofddatum
     const targetDate = new Date(2026, 8, 22, 0, 0, 0);
 
@@ -289,18 +314,8 @@
       document.getElementById('seconds').textContent = pad(seconds);
     }
 
-    const intervalId = setInterval(updateCountdown, 1000);
     updateCountdown();
-
-    // Overlay functies
-    function openOverlay(text) {
-      document.getElementById("overlay-text").textContent = text;
-      document.getElementById("overlay").style.display = "flex";
-    }
-
-    function closeOverlay() {
-      document.getElementById("overlay").style.display = "none";
-    }
+    const intervalId = setInterval(updateCountdown, 1000);
 
     // Cadeaudozen
     const giftDates = [
@@ -332,7 +347,7 @@
           box.textContent = "Klik voor cadeau " + (i+1);
           box.classList.add("available");
           box.onclick = () => {
-            openOverlay("🎁 Cadeau " + (i+1) + " geopend!");
+            openPopup("🎁 Cadeau " + (i+1) + " geopend!");
             box.textContent = "🎁 Cadeau " + (i+1);
             box.onclick = null;
           };
@@ -342,6 +357,27 @@
       updateBox();
       setInterval(updateBox, 60000);
     });
+
+    // Popup functies
+    function openPopup(text) {
+      const popup = document.getElementById("popup");
+      const content = document.getElementById("popup-content");
+      content.innerHTML = ""; // leegmaken
+      popup.classList.add("active");
+      typeWriter(content, text, 0);
+    }
+
+    function closePopup() {
+      document.getElementById("popup").classList.remove("active");
+    }
+
+    // Typewriter effect
+    function typeWriter(element, text, i) {
+      if (i < text.length) {
+        element.innerHTML += text.charAt(i);
+        setTimeout(() => typeWriter(element, text, i + 1), 50);
+      }
+    }
   </script>
 </body>
 </html>
