@@ -242,7 +242,7 @@ nee pap geen spoilers
 
     // Box1: aftellen tot 22 sep 2025
     const box1 = document.getElementById('box1');
-    const gift1Date = new Date(2025, 8, 22, 0, 0, 0);
+    const gift1Date = new Date(2025, 9, 22, 0, 0, 0);
     function updateBox1() {
       const now = new Date();
       const diff = gift1Date - now;
@@ -260,12 +260,6 @@ nee pap geen spoilers
     }
     updateBox1();
     setInterval(updateBox1, 1000);
-
-    // Box2 voorbeeld
-    const box2 = document.getElementById('box2');
-    box2.addEventListener('click', () => {
-      startConfetti();
-      box2.textContent = "Open cadeautje #2";
     });
   </script>
 </body>
