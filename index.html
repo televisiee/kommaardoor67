@@ -311,10 +311,12 @@ READY.`;
     const intervalId=setInterval(updateCountdown,1000);
 
     // Cadeaudozen
-    const giftDates=[new Date(2025,8,22),new Date(2025,9,1),new Date(2025,10,1),
-                     new Date(2025,11,1),new Date(2026,0,1),new Date(2026,1,1),
-                     new Date(2026,2,1),new Date(2026,3,1),new Date(2026,4,1),
-                     new Date(2026,5,1),new Date(2026,6,1),new Date(2026,7,1)];
+    const giftDates=[
+      new Date(2025,8,22),new Date(2025,9,1),new Date(2025,10,1),
+      new Date(2025,11,1),new Date(2026,0,1),new Date(2026,1,1),
+      new Date(2026,2,1),new Date(2026,3,1),new Date(2026,4,1),
+      new Date(2026,5,1),new Date(2026,6,1),new Date(2026,7,1)
+    ];
 
     giftDates.forEach((date,i)=>{
       const box=document.getElementById(`box${i+1}`);
@@ -324,11 +326,18 @@ READY.`;
         if(diff>0){
           const days=Math.floor(diff/(1000*60*60*24));
           box.textContent=days+" dagen";
-        }else{
+        } else {
           box.textContent="Klik voor cadeau "+(i+1);
           box.classList.add("available");
-          box.onclick=()=>{ openPopup("🎁 Cadeau "+(i+1)+" "Henry geeft je eerste cadeautje voor dit feest daar waar je ook de handleiding leest."); 
-            box.textContent="🎁 Cadeau "+(i+1); box.onclick=null; };
+          box.onclick=()=>{
+            if(i===0){
+              openPopup("Henry geeft je eerste cadeautje voor dit feest daar waar je ook de handleiding leest.");
+            } else {
+              openPopup("🎁 Cadeau "+(i+1)+" geopend!");
+            }
+            box.textContent="🎁 Cadeau "+(i+1);
+            box.onclick=null;
+          };
         }
       }
       updateBox();
@@ -350,3 +359,4 @@ READY.`;
   </script>
 </body>
 </html>
+
