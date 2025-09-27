@@ -109,7 +109,7 @@ nee pap geen spoilers
       border-radius: 15px;
       transition: transform 0.2s ease;
       cursor: pointer;
-      background: transparent; /* geen grijze vlakken meer */
+      background: transparent;
     }
     .box:hover { transform: translateY(-4px); }
 
@@ -141,18 +141,18 @@ nee pap geen spoilers
       <div class="unit"><div id="seconds" class="number">--</div></div>
     </div>
     <div class="grid">
-      <div class="box" id="box1">Vakje 1</div>
-      <div class="box" id="box2">TBA</div>
-      <div class="box">TBA</div>
-      <div class="box">TBA</div>
-      <div class="box">TBA</div>
-      <div class="box">TBA</div>
-      <div class="box">TBA</div>
-      <div class="box">TBA</div>
-      <div class="box">TBA</div>
-      <div class="box">TBA</div>
-      <div class="box">TBA</div>
-      <div class="box">TBA</div>
+      <div class="box" id="box1">OKT</div>
+      <div class="box" id="box2">NOV</div>
+      <div class="box" id="box1">DEC</div>
+      <div class="box" id="box2">JAN</div>
+      <div class="box" id="box2">FEB</div>
+      <div class="box" id="box2">MAR</div>
+      <div class="box" id="box2">APR</div>
+      <div class="box" id="box2">MEI</div>
+      <div class="box" id="box2">JUN</div>
+      <div class="box" id="box2">JUL</div>
+      <div class="box" id="box2">AUG</div>
+      <div class="box" id="box2">SEP</div>
     </div>
   </div>
   <canvas id="confetti"></canvas>
@@ -172,7 +172,7 @@ nee pap geen spoilers
     let confettiInterval;
     function createConfetti() {
       confettiParticles = [];
-      for (let i = 0; i < 200; i++) {
+      for (let i = 0; i < 300; i++) {
         confettiParticles.push({
           x: Math.random() * confettiCanvas.width,
           y: Math.random() * confettiCanvas.height - confettiCanvas.height,
@@ -216,7 +216,7 @@ nee pap geen spoilers
     }
 
     // Countdown hoofddatum
-    const targetDate = new Date(2026, 8, 1, 0, 0, 0);
+    const targetDate = new Date(2026, 8, 22, 0, 0, 0);
     function pad(n) { return String(n).padStart(2, '0'); }
     function updateCountdown() {
       const now = new Date();
