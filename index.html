@@ -1,36 +1,3 @@
-<!-- 
-######################
-######################
-######################
-######################
-######################
-######################
-######################
-######################
-######################
-######################
-######################
-######################
-######################
-
-
-nee pap geen spoilers 
-
-
-######################
-######################
-######################
-######################
-######################
-######################
-######################
-######################
-######################
-######################
-######################
-######################
--->
-
 <!doctype html>
 <html lang="nl">
 <head>
@@ -46,6 +13,7 @@ nee pap geen spoilers
       --c64-bg: #0000AA;
       --c64-text: #80FFFF;
       --c64-font: 'Press Start 2P', monospace;
+      --c64-border: #80FFFF;
     }
 
     * {
@@ -66,17 +34,47 @@ nee pap geen spoilers
       justify-content: center;
     }
 
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      background: repeating-linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 0.05),
+        rgba(0, 0, 0, 0.05) 1px,
+        transparent 1px,
+        transparent 3px
+      );
+      z-index: 1000;
+    }
+
     a {
       color: var(--c64-text);
       text-decoration: none;
     }
 
+    .frame {
+      border: 8px solid var(--c64-border);
+      padding: 30px;
+      max-width: 900px;
+      width: 95vw;
+      height: 90vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
     .content {
       text-align: center;
       z-index: 2;
-      padding: 20px;
-      max-width: 800px;
+      padding: 10px;
       width: 100%;
+      height: 100%;
+      overflow-y: auto;
     }
 
     .boot {
@@ -131,38 +129,51 @@ nee pap geen spoilers
       font-size: 1rem;
       margin-top: 1rem;
     }
+
+    /* Scrollbar retro maken */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: var(--c64-text);
+    }
+    ::-webkit-scrollbar-track {
+      background: var(--c64-bg);
+    }
   </style>
 </head>
 <body>
-  <div class="content">
-    <pre class="boot">
+  <div class="frame">
+    <div class="content">
+      <pre class="boot">
 **** COMMODORE 64 BASIC V2 ****  
 64K RAM SYSTEM  38911 BASIC BYTES FREE  
 READY.
 </pre>
 
-    <h1>Kommaardoor67</h1>
+      <h1>Kommaardoor67</h1>
 
-    <div id="countdown" class="units">
-      <div class="unit"><div id="days" class="number">--</div></div>
-      <div class="unit"><div id="hours" class="number">--</div></div>
-      <div class="unit"><div id="minutes" class="number">--</div></div>
-      <div class="unit"><div id="seconds" class="number">--</div></div>
-    </div>
+      <div id="countdown" class="units">
+        <div class="unit"><div id="days" class="number">--</div></div>
+        <div class="unit"><div id="hours" class="number">--</div></div>
+        <div class="unit"><div id="minutes" class="number">--</div></div>
+        <div class="unit"><div id="seconds" class="number">--</div></div>
+      </div>
 
-    <div class="grid">
-      <div class="box" id="box1">OKT</div>
-      <div class="box" id="box2">NOV</div>
-      <div class="box" id="box3">DEC</div>
-      <div class="box" id="box4">JAN</div>
-      <div class="box" id="box5">FEB</div>
-      <div class="box" id="box6">MAR</div>
-      <div class="box" id="box7">APR</div>
-      <div class="box" id="box8">MEI</div>
-      <div class="box" id="box9">JUN</div>
-      <div class="box" id="box10">JUL</div>
-      <div class="box" id="box11">AUG</div>
-      <div class="box" id="box12">SEP</div>
+      <div class="grid">
+        <div class="box" id="box1">OKT</div>
+        <div class="box" id="box2">NOV</div>
+        <div class="box" id="box3">DEC</div>
+        <div class="box" id="box4">JAN</div>
+        <div class="box" id="box5">FEB</div>
+        <div class="box" id="box6">MAR</div>
+        <div class="box" id="box7">APR</div>
+        <div class="box" id="box8">MEI</div>
+        <div class="box" id="box9">JUN</div>
+        <div class="box" id="box10">JUL</div>
+        <div class="box" id="box11">AUG</div>
+        <div class="box" id="box12">SEP</div>
+      </div>
     </div>
   </div>
 
