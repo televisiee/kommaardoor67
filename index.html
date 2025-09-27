@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Kommaardoor67</title>
 
-  <!-- Retro pixel-font van Google Fonts -->
+  <!-- Retro pixel-font -->
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 
   <style>
@@ -34,7 +34,8 @@
       justify-content: center;
     }
 
-    body::before {
+    /* CRT-effect */
+    body::after {
       content: "";
       position: fixed;
       top: 0;
@@ -44,17 +45,32 @@
       pointer-events: none;
       background: repeating-linear-gradient(
         to bottom,
-        rgba(0, 0, 0, 0.05),
-        rgba(0, 0, 0, 0.05) 1px,
+        rgba(0, 0, 0, 0.15),
+        rgba(0, 0, 0, 0.15) 1px,
         transparent 1px,
         transparent 3px
       );
       z-index: 1000;
     }
 
-    a {
-      color: var(--c64-text);
-      text-decoration: none;
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(circle, rgba(128,255,255,0.1) 0%, rgba(0,0,0,0.6) 90%);
+      pointer-events: none;
+      z-index: 999;
+      mix-blend-mode: lighten;
+      animation: flicker 0.15s infinite;
+    }
+
+    @keyframes flicker {
+      0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
+        opacity: 1;
+      }
+      20%, 24%, 55% {
+        opacity: 0.8;
+      }
     }
 
     .frame {
@@ -75,14 +91,14 @@
       width: 100%;
       height: 100%;
       overflow-y: auto;
+      display: none; /* pas zichtbaar na boot */
     }
 
     .boot {
       font-family: var(--c64-font);
       color: var(--c64-text);
       text-align: left;
-      white-space: pre;
-      margin-bottom: 2rem;
+      white-space: pre-wrap;
       line-height: 1.8;
     }
 
@@ -119,10 +135,16 @@
       font-size: 0.8rem;
       cursor: default;
       text-align: center;
+      transition: background 0.3s;
     }
 
     .box:hover {
       background-color: rgba(255, 255, 255, 0.1);
+    }
+
+    .box.available {
+      background-color: rgba(128, 255, 255, 0.2);
+      cursor: pointer;
     }
 
     h2 {
@@ -130,7 +152,7 @@
       margin-top: 1rem;
     }
 
-    /* Scrollbar retro maken */
+    /* Retro scrollbar */
     ::-webkit-scrollbar {
       width: 8px;
     }
@@ -144,13 +166,8 @@
 </head>
 <body>
   <div class="frame">
-    <div class="content">
-      <pre class="boot">
-**** COMMODORE 64 BASIC V2 ****  
-64K RAM SYSTEM  38911 BASIC BYTES FREE  
-READY.
-</pre>
-
+    <div class="boot" id="boot"></div>
+    <div class="content" id="content">
       <h1>Kommaardoor67</h1>
 
       <div id="countdown" class="units">
@@ -161,23 +178,57 @@ READY.
       </div>
 
       <div class="grid">
-        <div class="box" id="box1">OKT</div>
-        <div class="box" id="box2">NOV</div>
-        <div class="box" id="box3">DEC</div>
-        <div class="box" id="box4">JAN</div>
-        <div class="box" id="box5">FEB</div>
-        <div class="box" id="box6">MAR</div>
-        <div class="box" id="box7">APR</div>
-        <div class="box" id="box8">MEI</div>
-        <div class="box" id="box9">JUN</div>
-        <div class="box" id="box10">JUL</div>
-        <div class="box" id="box11">AUG</div>
-        <div class="box" id="box12">SEP</div>
+        <div class="box" id="box1">SEP</div>
+        <div class="box" id="box2">OKT</div>
+        <div class="box" id="box3">NOV</div>
+        <div class="box" id="box4">DEC</div>
+        <div class="box" id="box5">JAN</div>
+        <div class="box" id="box6">FEB</div>
+        <div class="box" id="box7">MAR</div>
+        <div class="box" id="box8">APR</div>
+        <div class="box" id="box9">MEI</div>
+        <div class="box" id="box10">JUN</div>
+        <div class="box" id="box11">JUL</div>
+        <div class="box" id="box12">AUG</div>
       </div>
     </div>
   </div>
 
   <script>
+    // Boot-up tekst simulatie
+    const bootLines = [
+      "**** COMMODORE 64 BASIC V2 ****",
+      "64K RAM SYSTEM  38911 BASIC BYTES FREE",
+      "READY."
+    ];
+    const bootEl = document.getElementById("boot");
+    const contentEl = document.getElementById("content");
+
+    let line = 0;
+    let char = 0;
+
+    function typeLine() {
+      if (line < bootLines.length) {
+        if (char < bootLines[line].length) {
+          bootEl.textContent += bootLines[line][char];
+          char++;
+          setTimeout(typeLine, 40); // snelheid per char
+        } else {
+          bootEl.textContent += "\n";
+          line++;
+          char = 0;
+          setTimeout(typeLine, 300); // pauze tussen regels
+        }
+      } else {
+        // na boot-up content tonen
+        setTimeout(() => {
+          bootEl.style.display = "none";
+          contentEl.style.display = "block";
+        }, 800);
+      }
+    }
+    typeLine();
+
     // Countdown hoofddatum
     const targetDate = new Date(2026, 8, 22, 0, 0, 0); // 22 september 2026
 
@@ -207,31 +258,49 @@ READY.
       document.getElementById('seconds').textContent = pad(seconds);
     }
 
-    updateCountdown();
     const intervalId = setInterval(updateCountdown, 1000);
+    updateCountdown();
 
-    // Box1: aftellen tot 22 sep 2025
-    const box1 = document.getElementById('box1');
-    const gift1Date = new Date(2025, 9, 22, 0, 0, 0);
+    // Cadeaudozen (22e van elke maand vanaf sep 2025 tot aug 2026)
+    const giftDates = [
+      new Date(2025, 8, 22),  // SEP
+      new Date(2025, 9, 22),  // OKT
+      new Date(2025, 10, 22), // NOV
+      new Date(2025, 11, 22), // DEC
+      new Date(2026, 0, 22),  // JAN
+      new Date(2026, 1, 22),  // FEB
+      new Date(2026, 2, 22),  // MAR
+      new Date(2026, 3, 22),  // APR
+      new Date(2026, 4, 22),  // MEI
+      new Date(2026, 5, 22),  // JUN
+      new Date(2026, 6, 22),  // JUL
+      new Date(2026, 7, 22),  // AUG
+    ];
 
-    function updateBox1() {
-      const now = new Date();
-      const diff = gift1Date - now;
+    giftDates.forEach((date, i) => {
+      const box = document.getElementById(`box${i+1}`);
 
-      if (diff > 0) {
-        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-        box1.textContent = days + " dagen";
-      } else {
-        box1.textContent = "Klik voor cadeau 1";
-        box1.onclick = () => {
-          box1.textContent = "Cadeau 1";
-          box1.onclick = null;
-        };
+      function updateBox() {
+        const now = new Date();
+        const diff = date - now;
+
+        if (diff > 0) {
+          const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+          box.textContent = days + " dagen";
+        } else {
+          box.textContent = "Klik voor cadeau " + (i+1);
+          box.classList.add("available");
+          box.onclick = () => {
+            alert("🎁 Cadeau " + (i+1) + " geopend!");
+            box.textContent = "🎁 Cadeau " + (i+1);
+            box.onclick = null;
+          };
+        }
       }
-    }
 
-    updateBox1();
-    setInterval(updateBox1, 3600000); // elk uur verversen
+      updateBox();
+      setInterval(updateBox, 60000);
+    });
   </script>
 </body>
 </html>
