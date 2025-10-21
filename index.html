@@ -352,32 +352,34 @@ giftDates.forEach((date,i)=>{
   setInterval(updateBox,60000);
 });
 
-  giftDates.forEach((date,i+1)=>{
-  const box=document.getElementById(`box${i+2}`);
-  function updateBox(){
-    const now=new Date();
-    const diff=date-now;
-    if(diff>0){
-      const days=Math.floor(diff/(1000*60*60*24));
-      box.textContent=days+" dagen";
-    } else {
-      box.textContent="Klik voor cadeau "+(i+2);
-      box.classList.add("available");
-      box.onclick=()=>{
-        giftSound.play();
-        if(i===0){
-          openPopup("Wij hebben al gepint, dat je is hint. Dit cadeau ligt gewoon waar je het gebruikelijk vindt.");
-        } else {
-          openPopup("🎁 Cadeau "+(i+2)+" geopend!");
-        }
-        box.textContent="🎁 Cadeau "+(i+2);
-        box.onclick=null;
-      };
-    }
+// Stel hier de datum in waarop box 2 beschikbaar wordt
+const box2ReleaseDate = new Date(2025, 9, 23, 0, 0, 0); // Let op: maanden tellen vanaf 0, dus 9 = oktober
+
+const box2 = document.getElementById("box2");
+
+function updateBox2() {
+  const now = new Date();
+  if (now >= box2ReleaseDate) {
+    box2.textContent = "Klik voor cadeau 2";
+    box2.classList.add("available");
+    box2.onclick = () => {
+      giftSound.play();
+      openPopup("Wij hebben al gepint, dat je is hint. Dit cadeau ligt gewoon waar je het gebruikelijk vindt");
+      box2.textContent = "🎁 Cadeau 2";
+      box2.onclick = null;
+    };
+  } else {
+    const diff = box2ReleaseDate - now;
+    const days = Math.ceil(diff / (1000 * 60 * 60 * 24));
+    box2.textContent = days + " dagen";
+    box2.classList.remove("available");
+    box2.onclick = null;
   }
-  updateBox();
-  setInterval(updateBox,60000);
-});
+}
+
+
+updateBox2();
+setInterval(updateBox2, 60000); // Check elke minuut
 
 // Popup functies
 function openPopup(text){
