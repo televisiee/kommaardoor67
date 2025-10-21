@@ -328,7 +328,7 @@ const giftSound = document.getElementById("gift-sound");
 giftDates.forEach((date,i)=>{
   const box=document.getElementById(`box${i+1}`);
   function updateBox(){
-    const now=new Date("2025-09-22T00:00:00");
+    const now=new Date("2025-08-22T00:00:00");
     const diff=date-now;
     if(diff>0){
       const days=Math.floor(diff/(1000*60*60*24));
@@ -362,7 +362,7 @@ giftDates.forEach((date,i)=>{
   console.log(`🎁 Box ${i + 1} opent op: ${openDate.toLocaleString()}`);
 
   function updateBox() {
-    const now = new Date("2025-10-22T00:00:00");
+    const now = new Date("2025-09-22T00:00:00");
     const diff = openDate - now;
 
     if (diff > 0) {
