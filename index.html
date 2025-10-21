@@ -362,7 +362,7 @@ giftDates.forEach((date,i)=>{
   console.log(`🎁 Box ${i + 1} opent op: ${openDate.toLocaleString()}`);
 
   function updateBox() {
-    const now = new Date();
+    const now = new Date("2025-10-22T00:00:00");
     const diff = openDate - now;
 
     if (diff > 0) {
@@ -391,7 +391,6 @@ giftDates.forEach((date,i)=>{
   updateBox();
   setInterval(updateBox, 60000);
 });
-
 
   
 // Popup functies
