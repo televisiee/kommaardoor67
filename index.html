@@ -353,13 +353,13 @@ giftDates.forEach((date,i)=>{
 });
 
  giftDates.forEach((date, i) => {
-  const box = document.getElementById(`box${i + 1}`);
+  const box = document.getElementById(`box${i + 2}`);
 
   // Zorg dat de datum om middernacht begint
   const openDate = new Date(date);
   openDate.setHours(0, 0, 0, 0);
 
-  console.log(`🎁 Box ${i + 1} opent op: ${openDate.toLocaleString()}`);
+  console.log(`🎁 Box ${i + 2} opent op: ${openDate.toLocaleString()}`);
 
   function updateBox() {
     const now = new Date("2025-09-22T00:00:00");
@@ -371,7 +371,7 @@ giftDates.forEach((date,i)=>{
       box.classList.remove("available");
       box.onclick = null;
     } else {
-      box.textContent = "Klik voor cadeau " + (i + 1);
+      box.textContent = "Klik voor cadeau " + (i + 2);
       box.classList.add("available");
       box.onclick = () => {
         giftSound.play();
@@ -380,9 +380,9 @@ giftDates.forEach((date,i)=>{
             "Wij hebben al gepint, dat je is hint. Dit cadeau ligt gewoon waar je het gebruikelijk vindt."
           );
         } else {
-          openPopup("🎁 Cadeau " + (i + 1) + " geopend!");
+          openPopup("🎁 Cadeau " + (i + 2) + " geopend!");
         }
-        box.textContent = "🎁 Cadeau " + (i + 1);
+        box.textContent = "🎁 Cadeau " + (i + 2);
         box.onclick = null;
       };
     }
