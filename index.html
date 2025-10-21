@@ -371,7 +371,7 @@ function updateBox2() {
   } else {
     const diff = box2ReleaseDate - now;
     const days = Math.ceil(diff / (1000 * 60 * 60 * 24));
-    box2.textContent = days + " dagen";
+    box2.textContent = days + "dagen";
     box2.classList.remove("available");
     box2.onclick = null;
   }
