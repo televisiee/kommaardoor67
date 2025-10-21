@@ -318,17 +318,17 @@ const intervalId=setInterval(updateCountdown,1000);
 
 // Cadeaudozen
 const giftDates=[
-  new Date(2025,9,22),new Date(2025,10,23),new Date(2025,11,22),
-  new Date(2025,12,23),new Date(2026,1,22),new Date(2026,2,22),
-  new Date(2026,3,22),new Date(2026,4,22),new Date(2026,5,22),
-  new Date(2026,6,22),new Date(2026,7,22),new Date(2026,8,22)
+  new Date(2025,8,22),new Date(2025,9,22),new Date(2025,10,23),
+  new Date(2025,11,23),new Date(2026,0,22),new Date(2026,1,22),
+  new Date(2026,2,22),new Date(2026,3,22),new Date(2026,4,22),
+  new Date(2026,5,22),new Date(2026,6,22),new Date(2026,7,22)
 ];
 const giftSound = document.getElementById("gift-sound");
 
 giftDates.forEach((date,i)=>{
   const box=document.getElementById(`box${i+1}`);
   function updateBox(){
-    const now=new Date("2025-08-22T00:00:00");
+    const now=new Date();
     const diff=date-now;
     if(diff>0){
       const days=Math.floor(diff/(1000*60*60*24));
@@ -352,47 +352,33 @@ giftDates.forEach((date,i)=>{
   setInterval(updateBox,60000);
 });
 
- giftDates.forEach((date, i) => {
-  const box = document.getElementById(`box${i + 2}`);
-
-  // Zorg dat de datum om middernacht begint
-  const openDate = new Date(date);
-  openDate.setHours(0, 0, 0, 0);
-
-  console.log(`🎁 Box ${i + 2} opent op: ${openDate.toLocaleString()}`);
-
-  function updateBox() {
-    const now = new Date("2025-09-22T00:00:00");
-    const diff = openDate - now;
-
-    if (diff > 0) {
-      const days = Math.ceil(diff / (1000 * 60 * 60 * 24));
-      box.textContent = days + (days === 1 ? " dag" : " dagen");
-      box.classList.remove("available");
-      box.onclick = null;
+  giftDates.forEach((date,i+1)=>{
+  const box=document.getElementById(`box${i+2}`);
+  function updateBox(){
+    const now=new Date();
+    const diff=date-now;
+    if(diff>0){
+      const days=Math.floor(diff/(1000*60*60*24));
+      box.textContent=days+" dagen";
     } else {
-      box.textContent = "Klik voor cadeau " + (i + 2);
+      box.textContent="Klik voor cadeau "+(i+2);
       box.classList.add("available");
-      box.onclick = () => {
+      box.onclick=()=>{
         giftSound.play();
-        if (i === 0) {
-          openPopup(
-            "Wij hebben al gepint, dat je is hint. Dit cadeau ligt gewoon waar je het gebruikelijk vindt."
-          );
+        if(i===0){
+          openPopup("Wij hebben al gepint, dat je is hint. Dit cadeau ligt gewoon waar je het gebruikelijk vindt.");
         } else {
-          openPopup("🎁 Cadeau " + (i + 2) + " geopend!");
+          openPopup("🎁 Cadeau "+(i+2)+" geopend!");
         }
-        box.textContent = "🎁 Cadeau " + (i + 2);
-        box.onclick = null;
+        box.textContent="🎁 Cadeau "+(i+2);
+        box.onclick=null;
       };
     }
   }
-
   updateBox();
-  setInterval(updateBox, 60000);
+  setInterval(updateBox,60000);
 });
 
-  
 // Popup functies
 function openPopup(text){
   const popup=document.getElementById("popup");
