@@ -379,6 +379,33 @@ giftDates.forEach((date,i)=>{
   setInterval(updateBox,60000);
 });
 
+  giftDates.forEach((date,i)=>{
+  const box=document.getElementById(`box${i+3}`);
+  function updateBox(){
+    const now=new Date();
+    const diff=date-now;
+    if(diff>0){
+      const days=Math.floor(diff/(1000*60*60*24));
+      box.textContent=days+" dagen";
+    } else {
+      box.textContent="Klik voor cadeau "+(i+3);
+      box.classList.add("available");
+      box.onclick=()=>{
+        giftSound.play();
+        if(i===0){
+          openPopup("Wij hebben al gepint, dat je is hint. Dit cadeau ligt gewoon waar je het gebruikelijk vindt.");
+        } else {
+          openPopup("🎁 Cadeau "+(i+3)+" geopend!");
+        }
+        box.textContent="🎁 Cadeau "+(i+3);
+        box.onclick=null;
+      };
+    }
+  }
+  updateBox();
+  setInterval(updateBox,60000);
+});
+
 // Popup functies
 function openPopup(text){
   const popup=document.getElementById("popup");
