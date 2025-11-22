@@ -378,8 +378,8 @@ function updateBox2() {
 }
 
 
-updateBox3();
-setInterval(updateBox3, 60000); // Check elke minuut
+updateBox2();
+setInterval(updateBox2, 60000); // Check elke minuut
 
 function updateBox3() {
   const now = new Date();
@@ -392,17 +392,17 @@ function updateBox3() {
       box2.onclick = null;
     };
   } else {
-    const diff = box2ReleaseDate - now;
+    const diff = box3ReleaseDate - now;
     const days = Math.ceil(diff / (1000 * 60 * 60 * 24));
-    box2.textContent = days + "dagen";
-    box2.classList.remove("available");
-    box2.onclick = null;
+    box3.textContent = days + "dagen";
+    box3.classList.remove("available");
+    box3.onclick = null;
   }
 }
 
 
 updateBox3();
-setInterval(updateBox2, 60000); // Check elke minuut
+setInterval(updateBox3, 60000); // Check elke minuut
 
 
 // Popup functies
