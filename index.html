@@ -381,8 +381,8 @@ function updateBox2() {
 updateBox2();
 setInterval(updateBox2, 60000); // Check elke minuut
 
-// Stel hier de datum in waarop box 2 beschikbaar wordt
-const box2ReleaseDate = new Date(2025, 10, 23, 0, 0, 0); // Let op: maanden tellen vanaf 0, dus 9 = oktober
+// Stel hier de datum in waarop box 3 beschikbaar wordt
+const box3ReleaseDate = new Date(2025, 10, 23, 0, 0, 0); // Let op: maanden tellen vanaf 0, dus 9 = oktober
 
 function updateBox3() {
   const now = new Date();
@@ -392,8 +392,8 @@ function updateBox3() {
     box2.onclick = () => {
       giftSound.play();
       openPopup("Heb je dit gespeeld of word je langzaam zo? Misschien brengt deze avond antwoord op het plot.");
-      box2.textContent = "🎁 Cadeau 3";
-      box2.onclick = null;
+      box3.textContent = "🎁 Cadeau 3";
+      box3.onclick = null;
     };
   } else {
     const diff = box3ReleaseDate - now;
