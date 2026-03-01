@@ -391,7 +391,7 @@ function updateBox3() {
     box3.classList.add("available");
     box3.onclick = () => {
       giftSound.play();
-      openPopup("Heb je dit gespeeld of word je langzaam zot? Misschien brengt deze avond antwoord op het plot.");
+      openPopup("Dit was een chocolade letter.");
       box3.textContent = "🎁 Cadeau 3";
       box3.onclick = null;
     };
@@ -406,7 +406,206 @@ function updateBox3() {
 
 
 updateBox3();
-setInterval(updateBox3, 60000); // Check elke minuut
+setInterval(updateBox4, 60000); // Check elke minuut
+
+const box4ReleaseDate = new Date(2025, 11, 23, 0, 0, 0); // Let op: maanden tellen vanaf 0, dus 9 = oktober
+
+function updateBox4() {
+  const now = new Date();
+  if (now >= box4ReleaseDate) {
+    box4.textContent = "Klik voor cadeau 4";
+    box4.classList.add("available");
+    box4.onclick = () => {
+      giftSound.play();
+      openPopup("01100011 01101111 01101101 01110000 01110101 01110100 01100101 01110010 00100000 01100101 01101110 01100111 01101001 01101110 01100101 01100101 01110010 01101001 01101110 01100111 00100000 01100110 01101111 01110010 00100000 01100010 01100001 01100010 01101001 01100101 01110011");
+      box4.textContent = "🎁 Cadeau 4";
+      box4.onclick = null;
+    };
+  } else {
+    const diff = box4ReleaseDate - now;
+    const days = Math.ceil(diff / (1000 * 60 * 60 * 24));
+    box4.textContent = days + "dagen";
+    box4.classList.remove("available");
+    box4.onclick = null;
+  }
+}
+
+
+updateBox4();
+setInterval(updateBox4, 60000); // Check elke minuut
+
+const box5 = document.getElementById("box5");
+
+const box5ReleaseDate = new Date(2026, 0, 22, 0, 0, 0); 
+// 11 = december (maanden tellen vanaf 0)
+
+function updateBox5() {
+  const now = new Date();
+
+  if (now >= box5ReleaseDate) {
+    box5.textContent = "Klik voor cadeau 5";
+    box5.classList.add("available");
+    box5.onclick = () => {
+      giftSound.play();
+      openPopup("if no coffee than what?");
+      box5.textContent = "🎁 Cadeau 5";
+      box5.onclick = null;
+    };
+  } else {
+    const diff = box5ReleaseDate - now;
+    const days = Math.ceil(diff / (1000 * 60 * 60 * 24));
+    box5.textContent = days + "dagen";
+    box5.classList.remove("available");
+    box5.onclick = null;
+  }
+}
+
+updateBox5();
+setInterval(updateBox5, 60000); // Check elke minuut
+
+const box6 = document.getElementById("box6");
+
+const box6ReleaseDate = new Date(2026, 01, 22, 0, 0, 0); 
+// 11 = december (maanden tellen vanaf 0)
+
+function updateBox6() {
+  const now = new Date();
+
+  if (now >= box6ReleaseDate) {
+    box6.textContent = "Klik voor cadeau 6";
+    box6.classList.add("available");
+    box6.onclick = () => {
+      giftSound.play();
+      openPopup("Heb je dit gespeeld of word je langzaam zot? Misschien brengt deze avond antwoord op het plot.");
+      box6.textContent = "🎁 Cadeau 6";
+      box6.onclick = null;
+    };
+  } else {
+    const diff = box6ReleaseDate - now;
+    const days = Math.ceil(diff / (1000 * 60 * 60 * 24));
+    box6.textContent = days + "dagen";
+    box6.classList.remove("available");
+    box6.onclick = null;
+  }
+}
+
+updateBox6();
+setInterval(updateBox6, 60000); // Check elke minuut
+
+const box7 = document.getElementById("box7");
+
+const box7ReleaseDate = new Date(2026, 02, 22, 0, 0, 0);
+
+function updateBox7() {
+  const now = new Date();
+
+  if (now >= box7ReleaseDate) {
+    box7.textContent = "Klik voor cadeau 7";
+    box7.classList.add("available");
+    box7.onclick = () => {
+      giftSound.play();
+      openPopup("Heb je dit gespeeld of word je langzaam zot? Misschien brengt deze avond antwoord op het plot.");
+      box7.textContent = "🎁 Cadeau 7";
+      box7.onclick = null;
+    };
+  } else {
+    const diff = box7ReleaseDate - now;
+    const days = Math.ceil(diff / (1000 * 60 * 60 * 24));
+    box7.textContent = days + "dagen";
+    box7.classList.remove("available");
+    box7.onclick = null;
+  }
+}
+
+updateBox7();
+setInterval(updateBox7, 60000);
+
+
+const box8 = document.getElementById("box8");
+
+const box8ReleaseDate = new Date(2026, 03, 22, 0, 0, 0);
+
+function updateBox8() {
+  const now = new Date();
+
+  if (now >= box8ReleaseDate) {
+    box8.textContent = "Klik voor cadeau 8";
+    box8.classList.add("available");
+    box8.onclick = () => {
+      giftSound.play();
+      openPopup("Heb je dit gespeeld of word je langzaam zot? Misschien brengt deze avond antwoord op het plot.");
+      box8.textContent = "🎁 Cadeau 8";
+      box8.onclick = null;
+    };
+  } else {
+    const diff = box8ReleaseDate - now;
+    const days = Math.ceil(diff / (1000 * 60 * 60 * 24));
+    box8.textContent = days + "dagen";
+    box8.classList.remove("available");
+    box8.onclick = null;
+  }
+}
+
+updateBox8();
+setInterval(updateBox8, 60000);
+
+
+const box9 = document.getElementById("box9");
+
+const box9ReleaseDate = new Date(2026, 04, 21, 0, 0, 0);
+
+function updateBox9() {
+  const now = new Date();
+
+  if (now >= box9ReleaseDate) {
+    box9.textContent = "Klik voor cadeau 9";
+    box9.classList.add("available");
+    box9.onclick = () => {
+      giftSound.play();
+      openPopup("Heb je dit gespeeld of word je langzaam zot? Misschien brengt deze avond antwoord op het plot.");
+      box9.textContent = "🎁 Cadeau 9";
+      box9.onclick = null;
+    };
+  } else {
+    const diff = box9ReleaseDate - now;
+    const days = Math.ceil(diff / (1000 * 60 * 60 * 24));
+    box9.textContent = days + "dagen";
+    box9.classList.remove("available");
+    box9.onclick = null;
+  }
+}
+
+updateBox9();
+setInterval(updateBox9, 60000);
+
+
+const box10 = document.getElementById("box10");
+
+const box10ReleaseDate = new Date(2026, 05, 21, 0, 0, 0);
+
+function updateBox10() {
+  const now = new Date();
+
+  if (now >= box10ReleaseDate) {
+    box10.textContent = "Klik voor cadeau 10";
+    box10.classList.add("available");
+    box10.onclick = () => {
+      giftSound.play();
+      openPopup("Heb je dit gespeeld of word je langzaam zot? Misschien brengt deze avond antwoord op het plot.");
+      box10.textContent = "🎁 Cadeau 10";
+      box10.onclick = null;
+    };
+  } else {
+    const diff = box10ReleaseDate - now;
+    const days = Math.ceil(diff / (1000 * 60 * 60 * 24));
+    box10.textContent = days + "dagen";
+    box10.classList.remove("available");
+    box10.onclick = null;
+  }
+}
+
+updateBox10();
+setInterval(updateBox10, 60000);
 
 
 // Popup functies
